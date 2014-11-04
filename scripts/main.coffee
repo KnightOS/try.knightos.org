@@ -1,7 +1,10 @@
 ---
 ---
 
-requirejs.config({
+require.config({
+    paths: {
+        'z80e': '../tools/z80e'
+    },
     shim: {
         '../tools/kpack': {
             init: -> { FS: this.FS, Module: this.Module }
@@ -9,7 +12,7 @@ requirejs.config({
         '../tools/genkfs': {
             init: -> { FS: this.FS, Module: this.Module }
         },
-        '../tools/z80e': {
+        'z80e': {
             init: -> { FS: this.FS, Module: this.Module }
         }
     }
@@ -19,18 +22,10 @@ window.toolchain = {
     kpack: null,
     genkfs: null,
     z80e: null,
-    OpenTI: true, # TODO: Load OpenTI
+    ide_emu: null
     kernel_rom: null,
     kernel_inc: true # TODO: Add an assembler and load the kernel include into its filesystem
 }
-
-((el) ->
-    # Set up default editors
-    editor = ace.edit(el)
-    editor.setTheme("ace/theme/github")
-    if el.dataset.file.indexOf('.asm') == el.dataset.file.length - 4
-        editor.getSession().setMode("ace/mode/assembly_x86")
-)(el) for el in document.querySelectorAll('.editor')
 
 log_el = document.getElementById('tool-log')
 log = (text) ->
@@ -41,6 +36,8 @@ log = (text) ->
         log_el.innerHTML += '\n' + text
     log_el.scrollTop = log_el.scrollHeight
 window.ide_log = log
+
+# Load remote resources
 
 load_environment = ->
     toolchain.genkfs.FS.writeFile("/kernel.rom", toolchain.kernel_rom, { encoding: 'binary' })
@@ -99,9 +96,24 @@ require(['../tools/genkfs'], (genkfs) ->
     check_resources()
 )
 
-log("Downloading z80e...")
-require(['../tools/z80e'], (z80e) ->
-    log("Loaded z80e.")
-    window.toolchain.z80e = z80e
+log("Downloading emulator bindings...")
+require(['ide_emu'], (ide_emu) ->
+    log("Loaded emulator bindings.")
+    window.toolchain.ide_emu = ide_emu
+    window.toolchain.z80e = require("z80e")
     check_resources()
 )
+
+# Bind stuff to the UI
+
+document.getElementById('run-project').addEventListener('click', (e) ->
+    run_project()
+)
+
+((el) ->
+    # Set up default editors
+    editor = ace.edit(el)
+    editor.setTheme("ace/theme/github")
+    if el.dataset.file.indexOf('.asm') == el.dataset.file.length - 4
+        editor.getSession().setMode("ace/mode/assembly_x86")
+)(el) for el in document.querySelectorAll('.editor')
