@@ -1,6 +1,29 @@
 ---
 ---
 
+requirejs.config({
+    shim: {
+        '../tools/kpack': {
+            init: -> { FS: this.FS, Module: this.Module }
+        },
+        '../tools/genkfs': {
+            init: -> { FS: this.FS, Module: this.Module }
+        },
+        '../tools/z80e': {
+            init: -> { FS: this.FS, Module: this.Module }
+        }
+    }
+})
+
+window.toolchain = {
+    kpack: null,
+    genkfs: null,
+    z80e: null,
+    OpenTI: true, # TODO: Load OpenTI
+    kernel_rom: null,
+    kernel_inc: true # TODO: Add an assembler and load the kernel include into its filesystem
+}
+
 ((el) ->
     # Set up default editors
     editor = ace.edit(el)
@@ -17,13 +40,19 @@ log = (text) ->
     else
         log_el.innerHTML += '\n' + text
     log_el.scrollTop = log_el.scrollHeight
+window.ide_log = log
 
-temp = 0
+load_environment = ->
+    toolchain.genkfs.FS.writeFile("/kernel.rom", toolchain.kernel_rom, { encoding: 'binary' })
+    toolchain.genkfs.FS.mkdir("/model")
+    toolchain.kpack.FS.mkdir("/pkg_root")
+
 check_resources = ->
-    # Checks to see if we're ready to compile things
-    temp++
-    if temp == 2
-        log("Ready to assemble.")
+    for prop in Object.keys(window.toolchain)
+        if window.toolchain[prop] == null
+            return
+    log("Ready to assemble.")
+    load_environment()
 
 downloadKernel = ->
     log("Finding latest kernel on GitHub...")
@@ -37,9 +66,10 @@ downloadKernel = ->
         rom = new XMLHttpRequest()
         #rom.open('GET', _.find(release.assets, (a) -> a.name == 'kernel-TI84pSE.rom').browser_download_url) # TODO, pending support inquiry from GH
         rom.open('GET', 'http://irc.sircmpwn.com/kernel.rom')
+        rom.responseType = 'arraybuffer'
         rom.onload = () ->
-            # TODO: Add kernel to filesystem
-            log("Saved kernel-TI84pSE.rom to /res/kernel.rom")
+            window.toolchain.kernel_rom = rom.response
+            log("Loaded kernel ROM.")
             check_resources()
         rom.send()
 
@@ -47,10 +77,31 @@ downloadKernel = ->
         #inc.open('GET', _.find(release.assets, (a) -> a.name == 'kernel.inc').browser_download_url) # TODO, pending support inquiry from GH
         inc.open('GET', 'http://irc.sircmpwn.com/kernel.inc')
         inc.onload = () ->
-            # TODO: Add kernel to filesystem
-            log("Saved kernel.inc to /include/kernel.inc")
+            # TODO: Add include to filesystem
+            log("Loaded kernel headers.")
             check_resources()
         inc.send()
     xhr.send()
 
 downloadKernel()
+
+log("Downloading kpack...")
+require(['../tools/kpack'], (kpack) ->
+    log("Loaded kpack.")
+    window.toolchain.kpack = kpack
+    check_resources()
+)
+
+log("Downloading genkfs...")
+require(['../tools/genkfs'], (genkfs) ->
+    log("Loaded genkfs.")
+    window.toolchain.genkfs = genkfs
+    check_resources()
+)
+
+log("Downloading z80e...")
+require(['../tools/z80e'], (z80e) ->
+    log("Loaded z80e.")
+    window.toolchain.z80e = z80e
+    check_resources()
+)
