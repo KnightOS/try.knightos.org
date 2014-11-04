@@ -43,6 +43,7 @@ load_environment = ->
     toolchain.genkfs.FS.writeFile("/kernel.rom", toolchain.kernel_rom, { encoding: 'binary' })
     toolchain.genkfs.FS.mkdir("/model")
     toolchain.kpack.FS.mkdir("/pkg_root")
+    #emu = new toolchain.ide_emu(document.getElementById('screen').getContext('2d'))
 
 check_resources = ->
     for prop in Object.keys(window.toolchain)
