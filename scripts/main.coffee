@@ -45,6 +45,11 @@ load_environment = ->
     toolchain.genkfs.FS.writeFile("/kernel.rom", toolchain.kernel_rom, { encoding: 'binary' })
     toolchain.genkfs.FS.mkdir("/model")
     toolchain.kpack.FS.mkdir("/pkg_root")
+    run_project()
+
+run_project = ->
+    if current_emulator != null
+        current_emulator.cleanup()
     current_emulator = new toolchain.ide_emu(document.getElementById('screen').getContext('2d'))
     current_emulator.load_rom(toolchain.kernel_rom)
 

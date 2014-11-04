@@ -97,7 +97,12 @@ define(['z80e', '../OpenTI/webui/js/OpenTI/OpenTI'], function(z80e, OpenTI) {
         }
 
         this.cleanup = function cleanup() {
-            // TODO
+            clearTimeout(asic_tick);
+            clearTimeout(lcd_tick);
+            lcd_ctx.clearRect(0, 0, 385, 256);
+            return;
+            /* TODO: this causes assertion errors */
+            self.asic.free();
         };
 
         this.load_rom = function load_rom(arrayBuffer) {
