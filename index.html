@@ -1,0 +1,67 @@
+---
+layout: base
+---
+
+<div class="container-fixed">
+    <div class="row-xs-12">
+        <div class="col col-md-7 editor-column">
+            <div class="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#_file_main-asm">main.asm</a></li>
+                    <li><a data-toggle="tab" href="#_file_package-config">package.config</a></li>
+                </ul>
+            </div>
+            <div class="editor-area">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="_file_main-asm">
+                        <div class="editor" data-file="main.asm">{% include main.asm %}</div>
+                    </div>
+                    <div class="tab-pane" id="_file_package-config">
+                        <div class="editor" data-file="package.config">{% include package.config %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-md-5">
+            <div class="calculator-wrapper">
+                <div class="calculator">
+                    <canvas width="385" height="256" id="screen"></canvas>
+                </div>
+            </div>
+            <div class="navbar navbar-default">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">New file</a></li>
+                            <li><a href="#">Add file</a></li>
+                            <li><a href="#">Export files</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Emulator <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Load ROM</a></li>
+                            <li><a href="#">Enable debugger</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Manage dependencies</a></li>
+                            <li><a href="#">Export package</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="navbar-right" style="margin-right: 10px; margin-top: 8px;">
+                    <button class="btn btn-default"><span class="glyphicon glyphicon-question-sign"></span> Help</button>
+                    <button class="btn btn-primary"><span class="glyphicon glyphicon-play"></span> Run</button>
+                </div>
+            </div>
+            <textarea readonly class="form-control" rows=5 placeholder="(toolchain output)" id="tool-log"></textarea>
+        </div>
+    </div>
+</div>
+
+<script src="/scripts/main.js"></script>
+<link rel="stylesheet" href="/styles/index.css" />
