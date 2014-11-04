@@ -7,13 +7,13 @@ require.config({
     },
     shim: {
         '../tools/kpack': {
-            init: -> { FS: this.FS, Module: this.Module }
+            exports: 'exports'
         },
         '../tools/genkfs': {
-            init: -> { FS: this.FS, Module: this.Module }
+            exports: 'exports'
         },
         'z80e': {
-            init: -> { FS: this.FS, Module: this.Module }
+            exports: 'exports'
         }
     }
 })
