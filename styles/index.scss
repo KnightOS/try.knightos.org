@@ -8,11 +8,10 @@
 
 .editor-area {
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
 
     .tab-content {
-        flex: 1;
+        height: 100%;
 
         .tab-pane {
             height: 100%;
