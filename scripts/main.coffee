@@ -39,17 +39,20 @@ window.ide_log = log
 
 # Load remote resources
 
+current_emulator = null
+
 load_environment = ->
     toolchain.genkfs.FS.writeFile("/kernel.rom", toolchain.kernel_rom, { encoding: 'binary' })
     toolchain.genkfs.FS.mkdir("/model")
     toolchain.kpack.FS.mkdir("/pkg_root")
-    #emu = new toolchain.ide_emu(document.getElementById('screen').getContext('2d'))
+    current_emulator = new toolchain.ide_emu(document.getElementById('screen').getContext('2d'))
+    current_emulator.load_rom(toolchain.kernel_rom)
 
 check_resources = ->
     for prop in Object.keys(window.toolchain)
         if window.toolchain[prop] == null
             return
-    log("Ready to assemble.")
+    log("Ready.")
     load_environment()
 
 downloadKernel = ->

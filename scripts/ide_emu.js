@@ -70,6 +70,7 @@ define(['z80e', '../OpenTI/webui/js/OpenTI/OpenTI'], function(z80e, OpenTI) {
     key_mappings[57] = 0x23; // 9
 
     return function(canvas_context, ide_log) {
+        var self = this;
         lcd_ctx = canvas_context;
         this.asic = new OpenTI.TI.ASIC(OpenTI.TI.DeviceType.TI84pSE);
         this.asic.debugger = new OpenTI.Debugger.Debugger(this.asic);
@@ -99,17 +100,17 @@ define(['z80e', '../OpenTI/webui/js/OpenTI/OpenTI'], function(z80e, OpenTI) {
             // TODO
         };
 
-        this.load_rom = function load_rom(rom) {
+        this.load_rom = function load_rom(arrayBuffer) {
             var byteArray = new Uint8Array(arrayBuffer);
-            var pointer = z80e.Module.allocate(byteArray, 'i8', ALLOC_STACK);
-            z80e.Module.HEAPU32[asic.mmu._flashPointer] = pointer;
+            var pointer = z80e.Module.allocate(byteArray, 'i8', z80e.Module.ALLOC_STACK);
+            z80e.Module.HEAPU32[this.asic.mmu._flashPointer] = pointer;
 
             this.asic.runloop.tick(1000);
             this.asic.cpu.halted = 0;
 
             asic_tick = setTimeout(function tick() {
-                if (!this.asic.stopped || this.asic.cpu.interrupt) {
-                    this.asic.runloop.tick(asic.clock_rate / 20);
+                if (!self.asic.stopped || self.asic.cpu.interrupt) {
+                    self.asic.runloop.tick(self.asic.clock_rate / 20);
                 }
                 setTimeout(tick, 0);
             }, 1000 / 60);
@@ -122,7 +123,6 @@ define(['z80e', '../OpenTI/webui/js/OpenTI/OpenTI'], function(z80e, OpenTI) {
             }, 1000 / 60);
         }
 
-        this.asic = asic;
         this.handle_key_up = function(e) {
         };
         this.handle_key_down = function(e) {
