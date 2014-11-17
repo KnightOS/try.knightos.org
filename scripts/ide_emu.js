@@ -69,12 +69,30 @@ define(['z80e', '../OpenTI/webui/js/OpenTI/OpenTI'], function(z80e, OpenTI) {
     key_mappings[56] = 0x33; // 8
     key_mappings[57] = 0x23; // 9
 
-    return function(canvas_context, ide_log) {
+    return function(canvas, ide_log) {
         var self = this;
-        lcd_ctx = canvas_context;
+        lcd_ctx = canvas.getContext('2d');
         this.asic = new OpenTI.TI.ASIC(OpenTI.TI.DeviceType.TI84pSE);
         this.asic.debugger = new OpenTI.Debugger.Debugger(this.asic);
         this.asic.hook.addLCDUpdate(do_update_lcd);
+        this.keysEnabled = false;
+        window.addEventListener('click', function(e) {
+            self.keysEnabled = e.target.tagName == 'CANVAS';
+        });
+        window.addEventListener('keydown', function(e) {
+            if (!self.keysEnabled) return;
+            if (e.keyCode <= key_mappings.length && key_mappings[e.keyCode] !== -1) {
+                e.preventDefault();
+                self.asic.hardware.Keyboard.press(key_mappings[e.keyCode]);
+            }
+        });
+        window.addEventListener('keyup', function(e) {
+            if (!self.keysEnabled) return;
+            if (e.keyCode <= key_mappings.length && key_mappings[e.keyCode] !== -1) {
+                e.preventDefault();
+                self.asic.hardware.Keyboard.release(key_mappings[e.keyCode]);
+            }
+        });
 
         var asic_tick, lcd_tick;
 
@@ -127,10 +145,5 @@ define(['z80e', '../OpenTI/webui/js/OpenTI/OpenTI'], function(z80e, OpenTI) {
                 setTimeout(tick, 1000 / 60);
             }, 1000 / 60);
         }
-
-        this.handle_key_up = function(e) {
-        };
-        this.handle_key_down = function(e) {
-        };
     }
 })

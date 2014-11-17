@@ -106,11 +106,11 @@ run_project = ->
     window.toolchain.genkfs.FS.writeFile("/kernel.rom", new Uint8Array(toolchain.kernel_rom), { encoding: 'binary' })
     window.toolchain.genkfs.Module.callMain(["/kernel.rom", "/root"])
     rom = window.toolchain.genkfs.FS.readFile("/kernel.rom", { encoding: 'binary' })
-    console.log(URL.createObjectURL(new Blob([rom], {'type': 'application/kernel' })))
 
+    log("Loading your program into the emulator!")
     if current_emulator != null
         current_emulator.cleanup()
-    current_emulator = new toolchain.ide_emu(document.getElementById('screen').getContext('2d'))
+    current_emulator = new toolchain.ide_emu(document.getElementById('screen'))
     current_emulator.load_rom(rom.buffer)
 
 check_resources = ->
