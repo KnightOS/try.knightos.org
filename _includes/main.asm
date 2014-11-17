@@ -1,5 +1,4 @@
 #include "kernel.inc"
-#include "corelib.inc"
     .db "KEXC"
     .db KEXC_ENTRY_POINT
     .dw start
@@ -15,18 +14,9 @@ start:
     pcall(getLcdLock)
     pcall(getKeypadLock)
 
-    ; Load corelib
-    kld(de, corelib_path)
-    pcall(loadLibrary)
-
     ; Allocate a display buffer
     pcall(allocScreenBuffer)
     pcall(clearBuffer)
-
-    ; Draw a window
-    xor a ; ld a, 0
-    kld(hl, window_title)
-    corelib(drawWindow)
 
     ; Draw "Hello, world!"
     ld b, 2
@@ -36,12 +26,11 @@ start:
 
 .idle_loop:
     pcall(fastCopy)
-    corelib(appWaitKey)
+    pcall(flushKeys)
+    pcall(waitKey)
     cp kMODE
     ret z
     jr .idle_loop
 
 window_title:
     .db "Hello, world!", 0
-corelib_path:
-    .db "/lib/core", 0
