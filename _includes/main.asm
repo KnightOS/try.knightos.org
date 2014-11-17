@@ -19,8 +19,7 @@ start:
     pcall(clearBuffer)
 
     ; Draw "Hello, world!"
-    ld b, 2
-    ld de, 2 << 8 | 8
+    ld de, 0x0000
     kld(hl, window_title)
     pcall(drawStr)
 
