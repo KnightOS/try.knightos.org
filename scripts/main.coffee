@@ -102,6 +102,7 @@ run_project = ->
     # Build filesystem
     executable = window.toolchain.scas.FS.readFile("/executable", { encoding: 'binary' })
     window.toolchain.genkfs.FS.writeFile("/root/bin/executable", executable, { encoding: 'binary' })
+    window.toolchain.genkfs.FS.mkdir("/root/etc")
     window.toolchain.genkfs.FS.writeFile("/root/etc/inittab", "/bin/executable")
     window.toolchain.genkfs.FS.writeFile("/kernel.rom", new Uint8Array(toolchain.kernel_rom), { encoding: 'binary' })
     window.toolchain.genkfs.Module.callMain(["/kernel.rom", "/root"])
