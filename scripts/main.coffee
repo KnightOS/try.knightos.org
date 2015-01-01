@@ -98,11 +98,18 @@ run_project = ->
         window.toolchain.scas.FS.writeFile('/' + file.name, file.editor.getValue())
     log("Calling assembler...")
     window.toolchain.scas.Module.callMain(['/main.asm', '-I/include/', '-o', 'executable'])
-    log("Assembly done!")
+    
+    if window.toolchain.scas.FS.analyzePath("/executable").exists
+        log("Assembly done!")
+    else
+        log("Assembly faild");
+        return;
+    
     # Build filesystem
     executable = window.toolchain.scas.FS.readFile("/executable", { encoding: 'binary' })
     window.toolchain.genkfs.FS.writeFile("/root/bin/executable", executable, { encoding: 'binary' })
-    window.toolchain.genkfs.FS.mkdir("/root/etc")
+    if !window.toolchain.genkfs.FS.analyzePath("/root/etc").exists
+        window.toolchain.genkfs.FS.mkdir("/root/etc")
     window.toolchain.genkfs.FS.writeFile("/root/etc/inittab", "/bin/executable")
     window.toolchain.genkfs.FS.writeFile("/kernel.rom", new Uint8Array(toolchain.kernel_rom), { encoding: 'binary' })
     window.toolchain.genkfs.Module.callMain(["/kernel.rom", "/root"])
