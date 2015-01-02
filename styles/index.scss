@@ -5,7 +5,9 @@
     border-right: 1px solid #000;
     overflow: hidden !important;
 }
-
+.fileInput{
+    text-align:right;
+}
 .editor-area {
     height: 100%;
     overflow: hidden;
@@ -15,9 +17,9 @@
 
         .tab-pane {
             height: 100%;
-
+            //TEMP Fix
             .editor {
-                height: 100%;
+                height: 93%;
             }
         }
     }

@@ -39,7 +39,7 @@ layout: base
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">New file</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#new_file_Modal">New file</a></li>
                             <li><a href="#">Add file</a></li>
                             <li><a href="#">Export files</a></li>
                         </ul>
@@ -72,7 +72,7 @@ layout: base
                     </li>
                 </ul>
                 <div class="navbar-right" style="margin-right: 10px; margin-top: 8px;">
-                    <button class="btn btn-default"><span class="glyphicon glyphicon-question-sign"></span> Help</button>
+                    <a class="btn btn-default" target="_blank" href="http://www.knightos.org/documentation/"><span class="glyphicon glyphicon-question-sign"></span> Help</a>
                     <button class="btn btn-primary" id="run-project"><span class="glyphicon glyphicon-play"></span> Run</button>
                 </div>
             </div>
@@ -88,6 +88,30 @@ layout: base
         </div>
     </div>
 </div>
+<!-- modulat -->
+<div class="modal fade" id="new_file_Modal" tabindex="-1" role="dialog" aria-labelledby="new_file_ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="new_file_ModalLabel">New File</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <div class="input-group">
+                    <input type="text" class="form-control fileInput" id="new_file_title" placeholder="file">
+                <div class="input-group-addon">.asm</div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="new_file">New File</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script data-main="/scripts/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.min.js"></script>
 <link rel="stylesheet" href="/styles/index.css" />

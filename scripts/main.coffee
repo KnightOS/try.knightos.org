@@ -80,6 +80,7 @@ current_emulator = null
 load_environment = ->
     toolchain.genkfs.FS.writeFile("/kernel.rom", toolchain.kernel_rom, { encoding: 'binary' })
     toolchain.genkfs.FS.mkdir("/root")
+    toolchain.genkfs.FS.mkdir("/root/etc")
     toolchain.kpack.FS.mkdir("/packages")
     toolchain.kpack.FS.mkdir("/pkgroot")
     toolchain.kpack.FS.mkdir("/pkgroot/include")
@@ -108,8 +109,6 @@ run_project = ->
     # Build filesystem
     executable = window.toolchain.scas.FS.readFile("/executable", { encoding: 'binary' })
     window.toolchain.genkfs.FS.writeFile("/root/bin/executable", executable, { encoding: 'binary' })
-    if !window.toolchain.genkfs.FS.analyzePath("/root/etc").exists
-        window.toolchain.genkfs.FS.mkdir("/root/etc")
     window.toolchain.genkfs.FS.writeFile("/root/etc/inittab", "/bin/executable")
     window.toolchain.genkfs.FS.writeFile("/kernel.rom", new Uint8Array(toolchain.kernel_rom), { encoding: 'binary' })
     window.toolchain.genkfs.Module.callMain(["/kernel.rom", "/root"])
@@ -189,6 +188,23 @@ require(['ide_emu'], (ide_emu) ->
 
 document.getElementById('run-project').addEventListener('click', (e) ->
     run_project()
+)
+$('#new_file').on('click',(e) ->
+    id = $('#new_file_title').val();
+    $('.tab-content').append("<div class='tab-pane' id='#{ id }'><div class='editor' data-file='#{ id }.asm'></div></div>")
+    $('.nav.nav-tabs').append("<li><a data-toggle='tab' href='##{ id }'>#{ id }.asm</a></li>")
+    
+    el = document.querySelector("##{ id }>div")
+    console.log(id)
+    editor = ace.edit(el)
+    editor.setTheme("ace/theme/github")
+    if el.dataset.file.indexOf('.asm') == el.dataset.file.length - 4
+        editor.getSession().setMode("ace/mode/assembly_x86")
+    files.push({
+        name: el.dataset.file,
+        editor: editor
+    })
+    e.preventDefault()
 )
 
 ((el) ->
