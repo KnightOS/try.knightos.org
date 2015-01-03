@@ -42,6 +42,13 @@ log = (text) ->
     log_el.scrollTop = log_el.scrollHeight
 window.ide_log = log
 
+error_log = []
+error = (text) ->
+    log(text)
+    error_log.push(text)
+
+window.ide_error = error
+
 copy_between_systems = (fs1, fs2, from, to, encoding) ->
     for f in fs1.readdir(from)
         continue if f in ['.', '..']
@@ -94,20 +101,58 @@ load_environment = ->
     install_package('core', 'corelib', callback)
 
 run_project = ->
+    # Clear all Ace Annotations
+    _.each(files, (el) ->
+       el.editor.getSession().clearAnnotations()
+    );
+
     # Assemble
     for file in files
         window.toolchain.scas.FS.writeFile('/' + file.name, file.editor.getValue())
+
     log("Calling assembler...")
+
     window.toolchain.scas.Module.callMain(['/main.asm', '-I/include/', '-o', 'executable'])
-    
+
+    error_annotations = {}
+    for elog in error_log
+        error_text = elog.split(':')
+        if error_text.length < 5
+            continue
+
+        file = error_text[0]
+
+        if elog.indexOf('/') == 0
+            file = file.substring(1)
+        file = _.find(files, (el) ->
+            return el.name == file;
+        );
+        if not error_annotations[file.name]?
+            error_annotations[file.name] = []
+
+        error_annotations[file.name].push({
+          row: error_text[1] - 1,
+          column: error_text[2],
+          text: error_text[4],
+          type: "error"
+        })
+    _.each(error_annotations, (value,key) ->
+        _.find(files, {name:key}).editor.getSession().setAnnotations(value)
+    )
+
+
+
+    error_log = []
+
     if window.toolchain.scas.FS.analyzePath("/executable").exists
         log("Assembly done!")
     else
         log("Assembly faild");
         return;
-    
+
     # Build filesystem
     executable = window.toolchain.scas.FS.readFile("/executable", { encoding: 'binary' })
+
     window.toolchain.genkfs.FS.writeFile("/root/bin/executable", executable, { encoding: 'binary' })
     window.toolchain.genkfs.FS.writeFile("/root/etc/inittab", "/bin/executable")
     window.toolchain.genkfs.FS.writeFile("/kernel.rom", new Uint8Array(toolchain.kernel_rom), { encoding: 'binary' })
@@ -191,9 +236,10 @@ document.getElementById('run-project').addEventListener('click', (e) ->
 )
 $('#new_file').on('click',(e) ->
     id = $('#new_file_title').val();
+    $('#new_file_title').val('');
     $('.tab-content').append("<div class='tab-pane' id='#{ id }'><div class='editor' data-file='#{ id }.asm'></div></div>")
     $('.nav.nav-tabs').append("<li><a data-toggle='tab' href='##{ id }'>#{ id }.asm</a></li>")
-    
+
     el = document.querySelector("##{ id }>div")
     console.log(id)
     editor = ace.edit(el)
