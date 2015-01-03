@@ -147,7 +147,7 @@ run_project = ->
     if window.toolchain.scas.FS.analyzePath("/executable").exists
         log("Assembly done!")
     else
-        log("Assembly faild");
+        log("Assembly failed");
         return;
 
     # Build filesystem
