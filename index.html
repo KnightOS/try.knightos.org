@@ -1,120 +1,245 @@
 ---
 layout: base
 ---
-
-<p class="text-danger" style="position: fixed; top: 0; left: 0; right: 0; width: 100%; text-align: center; font-size: 20pt;"><strong>Work In Progress</strong></p>
-
-<div class="container-fixed">
-    <div class="row-xs-12">
-        <div class="col col-md-7 editor-column">
-            <div class="tabs">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#_file_main-asm">main.asm</a></li>
-                    <li><a data-toggle="tab" href="#_file_package-config">package.config</a></li>
-                </ul>
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation </span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">KnightOS </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    File 
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#new_file_Modal">New file</a>
+                        </li>
+                        <li>
+                            <a href="#">Add file</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">Export files</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    Emuator 
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Load ROM</a>
+                        </li>
+                        <li>
+                            <a href="#">Debugger</a>
+                        </li>
+                        <li>
+                            <a href="#">Logger</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    Project 
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Manage dependencies</a>
+                        </li>
+                        <li>
+                            <a href="#">Export package</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    Exmaples 
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Hello World</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    Tutorials 
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Getting Started</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <button class="btn btn-primary navbar-btn" disabled="disabled" id="run-project">
+                        <span class="glyphicon glyphicon-play"></span> Run 
+                    </button>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Settings</a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#shortcut_Modal">Shortcuts</a>
+                        </li>
+                        <li>
+                            <a href="#">Something else here</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">About KnightOS</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row">
+    <div class="col col-md-7">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#_file_main_asm" aria-controls="home" role="tab" data-toggle="tab">Main.asm</a>
+            </li>
+            <li role="presentation">
+                <a href="#_file_package_config" aria-controls="profile" role="tab" data-toggle="tab">Package.config</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="_file_main_asm">
+                <div class="editor" data-file="main.asm">{% include main.asm %}
+                </div>
             </div>
-            <div class="editor-area">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="_file_main-asm">
-                        <div class="editor" data-file="main.asm">{% include main.asm %}</div>
-                    </div>
-                    <div class="tab-pane" id="_file_package-config">
-                        <div class="editor" data-file="package.config">{% include package.config %}</div>
-                    </div>
+            <div role="tabpanel" class="tab-pane" id="_file_package_config">
+                <div class="editor" data-file="package.config">{% include package.config %}
                 </div>
             </div>
         </div>
-        <div class="col col-md-5">
-            <div class="calculator-wrapper">
-                <div class="calculator">
-                    <canvas width="385" height="256" id="screen"></canvas>
-                </div>
-                <p class="alert alert-info alert-dismissable" style="margin-bottom: 0;">
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    Click the screen to interact with the calculator, and click away to stop.
-                </p>
-            </div>
-            <div class="navbar navbar-default">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#" data-toggle="modal" data-target="#new_file_Modal">New file</a></li>
-                            <li><a href="#">Add file</a></li>
-                            <li><a href="#">Export files</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Emulator <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Load ROM</a></li>
-                            <li><a href="#">Enable debugger</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Manage dependencies</a></li>
-                            <li><a href="#">Export package</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Hello World</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorials <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Getting Started</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="navbar-right" style="margin-right: 10px; margin-top: 8px;">
-                    <a class="btn btn-default" target="_blank" href="http://www.knightos.org/documentation/"><span class="glyphicon glyphicon-question-sign"></span> Help</a>
-                    <button class="btn btn-primary" id="run-project"><span class="glyphicon glyphicon-play"></span> Run</button>
-                </div>
-            </div>
-            <div class="alert alert-success alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4>Try KnightOS!</h4>
-                    <p><a target="_blank" href="http://www.knightos.org">KnightOS</a> is an <a target="_blank" href="https://github.com/KnightOS">open-source</a> operating system for
-                    Texas Instruments calculators. This page lets you take a crack at writing programs for it! Write your code in on the left and hit
-                    "run" to give it a shot. You'll probably want to consult the <a target="_blank" href="http://www.knightos.org/documentation">documentation</a> before
-                    long. Have fun!</p>
-            </div>
-            <textarea disabled class="form-control" rows=10 placeholder="(toolchain output)" id="tool-log"></textarea>
+    </div>
+    <div class="col col-md-5">
+        <div class="calculator">
+            <canvas width="385" height="256" id="screen"></canvas>
         </div>
+        <textarea disabled class="form-control" rows=8 placeholder="(toolchain output)" id="tool-log"></textarea>
     </div>
 </div>
 <!-- modal -->
 <div class="modal" id="new_file_Modal" tabindex="-1" role="dialog" aria-labelledby="new_file_ModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <form>
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="new_file_ModalLabel">New File</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-                <div class="input-group">
-                        <input type="text" class="form-control fileInput" id="new_file_title" placeholder="file">
-                    <div class="input-group-addon">.asm</div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="new_file_ModalLabel">New File</h4>
                 </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
-            <button type="sumbit" class="btn btn-primary" data-dismiss="modal" id="new_file">New File</button>
-          </div>
-      </form>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control fileInput" id="new_file_title" placeholder="file">
+                            <div class="input-group-addon">.asm</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+                    <button type="sumbit" class="btn btn-primary" data-dismiss="modal" id="new_file">New File </button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
+<div class="modal" id="shortcut_Modal" tabindex="-1" role="dialog" aria-labelledby="shortcut_ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="shortcut_ModalLabel">Shortcuts (Work in Progress)</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-condensed table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <kbd>Shift+F10</kbd>
+                                </td>
+                                <td>
+                                    Run
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <kbd>Ctrl + N</kbd>
+                                </td>
+                                <td>
+                                    New File
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <kbd>Ctrl + W</kbd>
+                                </td>
+                                <td>
+                                    Close File
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <kbd>Ctrl + Z</kbd>
+                                </td>
+                                <td>
+                                    Undo
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <kbd>Ctrl + Y</kbd>
+                                </td>
+                                <td>
+                                    Redo
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
-
-
 <script data-main="/scripts/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.min.js"></script>
-<link rel="stylesheet" href="/styles/index.css" />
+<link rel="stylesheet" href="/styles/base.css"/>
+<link rel="stylesheet" href="/styles/index.css"/>

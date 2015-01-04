@@ -1,0 +1,31 @@
+html,
+body {
+    height: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+nav {
+    z-index: 100;
+}
+.nav-tabs {
+    margin-top: -5px;
+}
+.calculator {
+    background: url('/static/skin.png');
+    width: 645px;
+    height: 422px;
+    margin: 0 auto;
+    position: relative;
+}
+.calculator canvas {
+    position: absolute !important;
+    left: 122px !important;
+    top: 130px !important;
+}
+textarea {
+    cursor: default !important;
+    padding-right: 5px;
+}
+.modal-content,.input-group-addon{
+    border-radius: 0;
+}

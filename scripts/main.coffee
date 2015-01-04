@@ -102,6 +102,7 @@ load_environment = ->
 
 run_project = ->
     # Clear all Ace Annotations
+    $('#run-project').removeAttr('disabled')
     _.each(files, (el) ->
        el.editor.getSession().clearAnnotations()
     );
@@ -127,6 +128,10 @@ run_project = ->
         file = _.find(files, (el) ->
             return el.name == file;
         );
+        
+        if typeof file == "undefined"
+            alert('Freaking Undefined')
+            
         if not error_annotations[file.name]?
             error_annotations[file.name] = []
 
@@ -136,12 +141,10 @@ run_project = ->
           text: error_text[4],
           type: "error"
         })
+        
     _.each(error_annotations, (value,key) ->
         _.find(files, {name:key}).editor.getSession().setAnnotations(value)
     )
-
-
-
     error_log = []
 
     if window.toolchain.scas.FS.analyzePath("/executable").exists
@@ -264,3 +267,13 @@ $('#new_file').on('click',(e) ->
         editor: editor
     })
 )(el) for el in document.querySelectorAll('.editor')
+
+resizeAce = () ->
+    $('.editor').css('height', (window.innerHeight-90).toString() + 'px');
+    for file in files
+        file.editor.resize()
+        
+$(window).on('resize', () ->
+    resizeAce()
+)
+resizeAce()
