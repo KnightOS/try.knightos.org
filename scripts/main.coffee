@@ -129,8 +129,6 @@ run_project = ->
             return el.name == file;
         );
         
-        if typeof file == "undefined"
-            alert('Freaking Undefined')
             
         if not error_annotations[file.name]?
             error_annotations[file.name] = []
