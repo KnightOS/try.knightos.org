@@ -24,8 +24,10 @@ nav {
 }
 textarea {
     cursor: default !important;
-    padding-right: 5px;
 }
-.modal-content,.input-group-addon{
+a, button {
+   outline: 0 !important;
+}
+.modal-content,.input-group-addon, .nav-tabs > li > a, .label{
     border-radius: 0;
 }

@@ -136,7 +136,7 @@ run_project = ->
         error_annotations[file.name].push({
           row: error_text[1] - 1,
           column: error_text[2],
-          text: error_text[4],
+          text: error_text[4].substring(1),
           type: "error"
         })
         
@@ -232,7 +232,7 @@ require(['ide_emu'], (ide_emu) ->
 
 # Bind stuff to the UI
 
-document.getElementById('run-project').addEventListener('click', (e) ->
+$('#run-project').on('click', (e) ->
     run_project()
 )
 $('#new_file').on('click',(e) ->
@@ -275,3 +275,28 @@ $(window).on('resize', () ->
     resizeAce()
 )
 resizeAce()
+# ShourtCuts
+down_key = []
+shiftCut = []
+ctrlCut = []
+altCut = []
+
+ctrlCut[78] = () -> $('#new_file_Modal').modal('show')    #N
+ctrlCut[82] = () -> run_project()                        #R
+ctrlCut[190] = () -> $('#shortcut_Modal').modal('show')    #.
+
+window.addEventListener('keydown',(e) ->
+    key = e.which   
+    if(down_key[key])
+        return
+        
+    if(e.ctrlKey && ctrlCut[key]?)
+        e.preventDefault();
+        ctrlCut[key]()
+         
+    down_key[key] = true
+)
+window.addEventListener('keyup',(e) ->
+    key = e.which
+    delete down_key[key]
+)
