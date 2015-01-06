@@ -97,9 +97,7 @@ load_environment = ->
     callback = () ->
         packages++
         if packages == 3
-            setTimeout(() -> 
-                run_project()
-            , 1000)
+            run_project()
     install_package('core', 'init', callback)
     install_package('core', 'kernel-headers', callback)
     install_package('core', 'corelib', callback)
