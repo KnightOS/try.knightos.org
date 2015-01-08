@@ -1,13 +1,14 @@
+; This example is like the "hello world" example, but it uses corelib to draw
+; a KnightOS GUI window around the message.
+
 #include "kernel.inc"
 #include "corelib.inc"
-    ; Program header, safe to ignore
     .db "KEXC"
     .db KEXC_ENTRY_POINT
     .dw start
     .db KEXC_STACK_SIZE
     .dw 100
     .db KEXC_HEADER_END
-    ; End of program header
 window_title:
     .db "Hello, Title!", 0
 hello_world_message:

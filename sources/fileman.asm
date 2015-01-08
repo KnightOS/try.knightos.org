@@ -1,3 +1,6 @@
+; This example simply launches another program installed on the system, in this
+; case fileman. Try installing some more packages and launching them instead!
+
 #include "kernel.inc"
     ; Program header, safe to ignore
     .db "KEXC"
