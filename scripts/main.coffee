@@ -67,6 +67,7 @@ copy_between_systems = (fs1, fs2, from, to, encoding) ->
 
 install_package = (repo, name, callback) ->
     full_name = repo + '/' + name
+    $("[data-package='#{full_name}']").attr('disabled','disabled').text('Installing')
     log("Downloading " + full_name)
     xhr = new XMLHttpRequest()
     xhr.open('GET', "https://packages.knightos.org/" + full_name + "/download")
@@ -79,7 +80,7 @@ install_package = (repo, name, callback) ->
         toolchain.kpack.Module.callMain(['-e', file_name, '/pkgroot'])
         copy_between_systems(toolchain.kpack.FS, toolchain.scas.FS, "/pkgroot/include", "/include", "utf8")
         copy_between_systems(toolchain.kpack.FS, toolchain.genkfs.FS, "/pkgroot", "/root", "binary")
-        $("[data-package='#{full_name}']").attr('disabled','disabled').text('Installed')
+        $("[data-package='#{full_name}']").text('Installed')
         callback() if callback?
     xhr.send()
 
@@ -237,14 +238,14 @@ require(['ide_emu'], (ide_emu) ->
 # Bind stuff to the UI
 $("[data-package]").on('click', (e) ->
     e.preventDefault()
-    pack = $(this).attr('data-package').split('/')
+    pack = $(this).data('package').split('/')
     install_package(pack[0], pack[1])
 )
 
 $('.load-exmaple').on('click', (e) ->
     e.preventDefault()
     xhr = new XMLHttpRequest();
-    xhr.open('GET', $(this).attr('data-source'));
+    xhr.open('GET', $(this).data('source'));
     xhr.onload = () ->
         files[0].editor.setValue(this.responseText)
         files[0].editor.navigateFileStart();
@@ -259,11 +260,13 @@ $('#new_file').on('click',(e) ->
     e.preventDefault()
     id = $('#new_file_title').val();
     $('#new_file_title').val('');
+    if not id || _.some(files, {name: id + ".asm"})
+        return
+
     $('.tab-content').append("<div class='tab-pane' id='#{ id }'><div class='editor' data-file='#{ id }.asm'></div></div>")
     $('.nav.nav-tabs').append("<li><a data-toggle='tab' href='##{ id }'>#{ id }.asm</a></li>")
 
     el = document.querySelector("##{ id }>div")
-    console.log(id)
     editor = ace.edit(el)
     editor.setTheme("ace/theme/github")
     if el.dataset.file.indexOf('.asm') == el.dataset.file.length - 4
@@ -307,7 +310,6 @@ commands =
       $('#shortcut_Modal').modal('show')
 
 down_key = []
-shiftCut = []
 ctrlCut = []
 altCut = []
 
@@ -323,6 +325,11 @@ window.addEventListener('keydown',(e) ->
     if(e.ctrlKey && ctrlCut[key]?)
         e.preventDefault();
         ctrlCut[key]()
+    else if(e.altKey && altCut[key]?)
+        e.preventDefault();
+        altCut[key]()
+    
+    
          
     down_key[key] = true
 )
