@@ -67,6 +67,7 @@ copy_between_systems = (fs1, fs2, from, to, encoding) ->
 
 install_package = (repo, name, callback) ->
     full_name = repo + '/' + name
+    $("[data-package='#{full_name}']").attr('disabled','disabled').text('Installing')
     log("Downloading " + full_name)
     xhr = new XMLHttpRequest()
     xhr.open('GET', "https://packages.knightos.org/" + full_name + "/download")
@@ -79,6 +80,7 @@ install_package = (repo, name, callback) ->
         toolchain.kpack.Module.callMain(['-e', file_name, '/pkgroot'])
         copy_between_systems(toolchain.kpack.FS, toolchain.scas.FS, "/pkgroot/include", "/include", "utf8")
         copy_between_systems(toolchain.kpack.FS, toolchain.genkfs.FS, "/pkgroot", "/root", "binary")
+        $("[data-package='#{full_name}']").text('Installed')
         callback() if callback?
     xhr.send()
 
@@ -95,13 +97,15 @@ load_environment = ->
     packages = 0
     callback = () ->
         packages++
-        run_project() if packages == 3
+        if packages == 3
+            run_project()
     install_package('core', 'init', callback)
     install_package('core', 'kernel-headers', callback)
     install_package('core', 'corelib', callback)
 
 run_project = ->
     # Clear all Ace Annotations
+    $('#run-project').removeAttr('disabled')
     _.each(files, (el) ->
        el.editor.getSession().clearAnnotations()
     );
@@ -113,7 +117,6 @@ run_project = ->
     log("Calling assembler...")
 
     window.toolchain.scas.Module.callMain(['/main.asm', '-I/include/', '-o', 'executable'])
-
     error_annotations = {}
     for elog in error_log
         error_text = elog.split(':')
@@ -127,21 +130,23 @@ run_project = ->
         file = _.find(files, (el) ->
             return el.name == file;
         );
+        
+        if not file
+           return
+            
         if not error_annotations[file.name]?
             error_annotations[file.name] = []
 
         error_annotations[file.name].push({
           row: error_text[1] - 1,
           column: error_text[2],
-          text: error_text[4],
+          text: error_text[4].substring(1),
           type: "error"
         })
+        
     _.each(error_annotations, (value,key) ->
         _.find(files, {name:key}).editor.getSession().setAnnotations(value)
     )
-
-
-
     error_log = []
 
     if window.toolchain.scas.FS.analyzePath("/executable").exists
@@ -163,6 +168,7 @@ run_project = ->
     if current_emulator != null
         current_emulator.cleanup()
     current_emulator = new toolchain.ide_emu(document.getElementById('screen'))
+    window.emu = current_emulator
     current_emulator.load_rom(rom.buffer)
 
 check_resources = ->
@@ -230,18 +236,37 @@ require(['ide_emu'], (ide_emu) ->
 )
 
 # Bind stuff to the UI
+$("[data-package]").on('click', (e) ->
+    e.preventDefault()
+    pack = $(this).data('package').split('/')
+    install_package(pack[0], pack[1])
+)
 
-document.getElementById('run-project').addEventListener('click', (e) ->
+$('.load-exmaple').on('click', (e) ->
+    e.preventDefault()
+    xhr = new XMLHttpRequest();
+    xhr.open('GET', $(this).data('source'));
+    xhr.onload = () ->
+        files[0].editor.setValue(this.responseText)
+        files[0].editor.navigateFileStart();
+    xhr.send();
+)
+
+
+$('#run-project').on('click', (e) ->
     run_project()
 )
 $('#new_file').on('click',(e) ->
+    e.preventDefault()
     id = $('#new_file_title').val();
     $('#new_file_title').val('');
+    if not id || _.some(files, {name: id + ".asm"})
+        return
+
     $('.tab-content').append("<div class='tab-pane' id='#{ id }'><div class='editor' data-file='#{ id }.asm'></div></div>")
     $('.nav.nav-tabs').append("<li><a data-toggle='tab' href='##{ id }'>#{ id }.asm</a></li>")
 
     el = document.querySelector("##{ id }>div")
-    console.log(id)
     editor = ace.edit(el)
     editor.setTheme("ace/theme/github")
     if el.dataset.file.indexOf('.asm') == el.dataset.file.length - 4
@@ -250,7 +275,7 @@ $('#new_file').on('click',(e) ->
         name: el.dataset.file,
         editor: editor
     })
-    e.preventDefault()
+    resizeAce()
 )
 
 ((el) ->
@@ -264,3 +289,51 @@ $('#new_file').on('click',(e) ->
         editor: editor
     })
 )(el) for el in document.querySelectorAll('.editor')
+
+resizeAce = () ->
+    $('.editor').css('height', (window.innerHeight - 92).toString() + 'px');
+    for file in files
+        file.editor.resize()
+        
+$(window).on('resize', () ->
+    resizeAce()
+)
+resizeAce()
+# ShourtCuts
+commands =
+  new_file: () ->
+      $('.modal').modal('hide')
+      $('#new_file_Modal').modal('show')
+      $('#new_file_title').focus()
+  shortcut: () -> 
+      $('.modal').modal('hide')
+      $('#shortcut_Modal').modal('show')
+
+down_key = []
+ctrlCut = []
+altCut = []
+
+ctrlCut[78] = commands.new_file
+ctrlCut[82] = () -> run_project()
+ctrlCut[190] = commands.shortcut
+
+window.addEventListener('keydown',(e) ->
+    key = e.which   
+    if(down_key[key])
+        return
+        
+    if(e.ctrlKey && ctrlCut[key]?)
+        e.preventDefault();
+        ctrlCut[key]()
+    else if(e.altKey && altCut[key]?)
+        e.preventDefault();
+        altCut[key]()
+    
+    
+         
+    down_key[key] = true
+)
+window.addEventListener('keyup',(e) ->
+    key = e.which
+    delete down_key[key]
+)

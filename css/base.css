@@ -1,0 +1,276 @@
+/* general css and override bootstrap */
+html {overflow-y:scroll}
+html, body, .tooltip, .popover {font-family:'Open Sans', sans-serif}
+body {background-color:#eee; padding-bottom:30px}
+a {color:#39B3D7}
+
+.btn, .alert, .form-control {border-radius:0}
+
+.navbar-default {background-color:#39B3D7; margin-bottom:0}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color:#fff
+}
+.navbar-default .navbar-brand:hover {text-shadow:0 1px 1px rgba(0,0,0,0.7)}
+
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav > li > a:focus {
+    background-color:transparent; color:#fff
+}
+.navbar-default .navbar-nav > li > a:hover {
+    background-color:#287D96; color:#fff; text-shadow:0 1px 1px rgba(0,0,0,0.7)
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    background-color:#287D96; color:#fff
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a,
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    background-color:transparent; color:#fff
+}
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover {color:#fff; background-color:#287D96}
+
+.navbar-nav > li > .dropdown-menu {background-color:#39B3D7; border-radius:0; border-color:#E7E7E7}
+
+.navbar-default .navbar-toggle,
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    border-color:#fff; border-radius:0;
+    background-color:transparent
+}
+.navbar-default .navbar-toggle > .icon-bar {background-color:#fff}
+
+/* hero section on index */
+#hero {
+    background-image: url('/img/screenshotbanner-blurred.png');
+    background-position:center;
+    background-repeat:repeat;
+    padding-top:20px;
+    position:relative;
+    margin-bottom:20px;
+    -webkit-box-shadow:0 0 5px #000;
+    box-shadow:0 0 5px #000
+}
+.hero-block {background-color:#fff; padding:0 20px}
+#hero-calculator {position:relative; padding-top:30px}
+#hero-calculator-img {display:block}
+#hero-calculator-text {position:absolute; top:0; left:0; width:480px}
+#hero-introduction {position:absolute; bottom:20px; right:0; padding-bottom:20px}
+
+/* calculator screen in index */
+#screen {position:absolute; top:160px; left:122px}
+
+/* three section text in index */
+#body-text {display:flex}
+#body-text > .col-md-4 {position:relative; padding-bottom:50px}
+#body-text > .col-md-4 > .bottom-link {position:absolute; bottom:0; right:15px; left:15px}
+#body-text h3 {color:#39B3D7; padding-bottom:10px; border-bottom:1px solid #ccc}
+
+/* footer edit page link */
+#edit-page {margin-top:20px}
+
+/* sub hero for use in other pages */
+.sub-hero {
+    background-image: url('/img/screenshotbanner-blurred.png');
+    background-position:center;
+    background-repeat:repeat;
+    padding:50px 0; margin-bottom:20px; min-height:215px
+}
+.sub-hero-block {background-color:#fff; padding:0 20px 10px; display:inline-block}
+
+/* paginator for blog page and posts */
+.paginator {margin:10px 0}
+.paginator > .btn {min-width:100px; margin:5px 0}
+
+/* documentation section */
+.documentation {margin-top:20px}
+.documentation .docsection {margin-bottom:30px; padding:5px 20px; background-color:#fff}
+.documentation .doc-title > a {color:#333}
+.documentation .doc-title > small {font-size:14px}
+.documentation .details {padding-left:20px}
+.documentation .details > h3 {padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc}
+
+/* documentation navigation */
+.doc-nav > li > a {padding:5px 10px; border-left:4px solid transparent}
+.doc-nav > li.active > a {border-color:#39B3D7; font-weight:700}
+.doc-nav > li > ul {padding-left:20px}
+
+/* typeahead */
+.tt-dropdown-menu {
+    background-color:#fff; border:1px solid #ccc; width:300px;
+    overflow-x:hidden; margin-top:8px;
+    box-shadow:0 6px 12px rgba(0, 0, 0, 0.176)
+}
+
+.tt-dropdown-menu h4 {
+    font-size:16px; margin:0;
+}
+.tt-dropdown-menu div.text-muted {
+    font-size:12px;
+    display:block;
+    white-space:nowrap!important
+}
+.tt-dropdown-menu .tt-suggestion {padding:5px 10px; cursor:pointer}
+.tt-dropdown-menu .tt-suggestion:hover {background-color:#eee}
+.tt-dropdown-menu .no-results {
+    padding:5px 10px
+}
+
+/*
+.menu-large {
+  position: static !important;
+}
+.megamenu{
+  padding: 20px 0px;
+  width:100%;
+}
+.megamenu> li > ul {
+  padding: 0;
+  margin: 0;
+}
+.megamenu> li > ul > li {
+  list-style: none;
+}
+.megamenu> li > ul > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.428571429;
+  color: #333333;
+  white-space: normal;
+}
+.megamenu> li ul > li > a:hover,
+.megamenu> li ul > li > a:focus {
+  text-decoration: none;
+  color: #262626;
+  background-color: #f5f5f5;
+}
+.megamenu.disabled > a,
+.megamenu.disabled > a:hover,
+.megamenu.disabled > a:focus {
+  color: #999999;
+}
+.megamenu.disabled > a:hover,
+.megamenu.disabled > a:focus {
+  text-decoration: none;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  cursor: not-allowed;
+}
+.megamenu.dropdown-header {
+  color: #428bca;
+  font-size: 18px;
+}
+@media (max-width: 768px) {
+  .megamenu{
+    margin-left: 0 ;
+    margin-right: 0 ;
+  }
+  .megamenu> li {
+    margin-bottom: 30px;
+  }
+  .megamenu> li:last-child {
+    margin-bottom: 0;
+  }
+  .megamenu.dropdown-header {
+    padding: 3px 15px !important;
+
+  }
+  .navbar-nav .open .dropdown-menu .dropdown-header{
+        color:#fff;
+  }
+}*/
+
+/* responsive */
+@media (max-width:767px) { /* xs */
+	#hero {padding:100px 0; text-align:center}
+    #hero-introduction {position:static; bottom:auto; right:auto; float:none!important; display:inline-block}
+    
+    #body-text {display:block}
+    
+    .sub-hero-block > h1 {font-size:30px}
+}
+
+@media (min-width:768px) and (max-width:991px) { /* sm */
+	#hero-calculator {float:none!important}
+    #hero-introduction {float:none!important; width:100%; position:static; bottom:auto; right:auto}
+    
+    #body-text {display:block}
+}
+
+@media (min-width:992px) and (max-width:1199px) { /* md */
+	.navbar-form .form-control, .tt-hint {width:120px}
+}
+
+@media (min-width:1200px) { /* lg */
+	
+}
+
+
+/* pygment highlight */
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */

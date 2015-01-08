@@ -1,0 +1,43 @@
+html, body {
+    height: 100%;
+    overflow: hidden !important;
+}
+
+nav {
+    z-index: 100;
+}
+
+.fileInput {
+    text-align: right;
+}
+
+.nav-tabs {
+    margin-top: -1px;
+}
+
+.calculator {
+    background: url("/static/skin.png") repeat scroll 0% 0% transparent;
+    height: 422px;
+    margin: 0px auto;
+    position: relative;
+    width: 645px;
+}
+
+.calculator canvas {
+    background: none repeat scroll 0% 0% #97af97;
+    left: 122px ! important;
+    position: absolute ! important;
+    top: 130px ! important;
+}
+
+textarea {
+    cursor: default ! important;
+}
+
+a, button {
+    outline: 0px none ! important;
+}
+
+.modal-content, .input-group-addon, .nav-tabs > li > a, .label, kbd {
+    border-radius: 0px;
+}
