@@ -16,7 +16,7 @@ If you do not have ruby installed on your system, you need to get it from [here]
 After installing the prerequisites, clone this repository and navigate to its root directory
 
     git clone https://github.com/KnightOS/try.knightos.org.git
-    cd knightos.org
+    cd try.knightos.org
 
 
 Then, you can generate the site and start the local server by using
