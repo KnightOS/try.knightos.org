@@ -16,22 +16,35 @@ nav {
 }
 
 .calculator {
-    background: url("/static/skin.png") repeat scroll 0% 0% transparent;
-    height: 422px;
+    background: url("/static/skin_full.png") no-repeat scroll 0% 0% transparent;
+    background-size: 290px;
+    height: 722px;
     margin: 0px auto;
     position: relative;
-    width: 645px;
+    width: 650px;
 }
 
 .calculator canvas {
     background: none repeat scroll 0% 0% #97af97;
-    left: 122px ! important;
-    position: absolute ! important;
-    top: 130px ! important;
+    left: 38px; /*! important;*/
+    position: absolute; /* ! important;*/
+    top: 64px; /*! important;*/
+    width: 215px;
+    padding: 5px;
 }
 
 textarea {
     cursor: default ! important;
+}
+
+#jumbo_screen {
+    background-color: #97af97;
+    display: none;
+    position: absolute;
+    left: 40px;
+    top: 220px;
+    padding: 5px;
+    box-shadow : 0px 0px 0px 2px #888888;;
 }
 
 a, button {

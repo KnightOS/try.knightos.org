@@ -63,7 +63,7 @@ a {color:#39B3D7}
 #hero-introduction {position:absolute; bottom:20px; right:0; padding-bottom:20px}
 
 /* calculator screen in index */
-#screen {position:absolute; top:160px; left:122px}
+#screen {position:absolute; top: 63px; left: 37px;}
 
 /* three section text in index */
 #body-text {display:flex}
