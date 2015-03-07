@@ -1,0 +1,277 @@
+
+
+.btn_key{
+    position: relative;
+}
+
+.btn_key:hover{
+    position: relative;
+    top:528px;
+    left: 78px;
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,1));
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,1));
+    box-shadow: 0px 0px 3px 2px #00db21 inset;
+}
+
+.btn_key:active{
+    position: relative;
+    top:528px;
+    left: 78px;
+    -webkit-filter: drop-shadow(-2px -2px 2px rgba(0,0,0,1));
+    filter: drop-shadow(-2px -2px 2px rgba(0,0,0,1));
+    box-shadow: 0px 0px 3px 2px #22ff00 inset;
+}
+
+#btn_0x20{
+    top:570px;
+    left: -348px;
+}
+
+#btn_0x30{
+    top:572px;
+    left: -345px;
+}
+/* btn 0 */
+#btn_0x40{    
+    top:570px;
+    left: -343px;
+}
+/* btn 1 */
+#btn_0x41{
+    top:528px;
+    left: 78px;
+}
+/* btn 2 */
+#btn_0x31{
+    top:530px;
+    left: 78px;
+}
+/* btn 3 */
+#btn_0x21{
+    top:528px;
+    left: 75px;
+}
+/* btn 4 */
+#btn_0x42{
+    top:485px;
+    left: -62px;
+}
+/* btn 5 */
+#btn_0x32{
+    top:485px;
+    left: -64px;
+}
+/* btn 6 */
+#btn_0x22{
+    top:483px;
+    left: -66px;
+}
+/* btn 7 */
+#btn_0x43{
+    top: 442px;
+    left: -202px;
+}
+/* btn 8 */
+#btn_0x33{
+    top: 444px;
+    left: -205px;
+}
+/* btn 9 */
+#btn_0x23{
+    top:442px;
+    left: -207px;
+}
+/* btn Enter */
+#btn_0x10{
+    top:540px;
+    left: -352px;
+}
+/* btn Add */
+#btn_0x11{
+    top:458px;
+    left: 214px;
+}
+/* btn Substraction */
+#btn_0x12{
+    top:425px;
+    left: 166px;
+}
+/* btn Multiply */
+#btn_0x13{
+    top:389px;
+    left: 120px;
+}
+/* btn Divide */
+#btn_0x14{
+    top:357px;
+    left: 70px;
+}
+/* btn On */
+#btn_0x05{
+    top:496px;
+    left: -152px;
+}
+/* btn STO */
+#btn_0x51{
+    top:455px;
+    left: -201px;
+}
+/* btn LN */
+#btn_0x52{
+    top:422px;
+    left: -250px;
+}
+/* btn Log*/
+#btn_0x53{
+    top:390px;
+    left: -294px;
+}
+/* btn X^2*/
+#btn_0x54{
+    top:358px;
+    left: -342px;
+}
+/* btn , */
+#btn_0x44{
+    top:364px;
+    left: -346px;
+}
+/* btn ( */
+#btn_0x34{
+    top:366px;
+    left: -346px;
+}
+/* btn ) */
+#btn_0x24{
+    top:365px;
+    left: -348px;
+}
+/* btn x-1 */
+#btn_0x55 {
+    top: 326px;
+    left: -531px;
+}
+/* btn sin */
+#btn_0x45 {
+    top: 288px;
+    left: 79px;
+}
+/* btn cos */
+#btn_0x35 {
+    top: 290px;
+    left: 76px;
+}
+/* btn tan */
+#btn_0x25 {
+    top: 288px;
+    left: 76px;
+}
+/* btn ^ */
+#btn_0x15 {
+    top: 282px;
+    left: 70px;
+}
+/* btn MATH */
+#btn_0x56 {
+    top: 250px;
+    left: -153px;
+}
+/* btn APPS */
+#btn_0x46 {
+    top: 258px;
+    left: -155px;
+}
+/* btn PRGM*/
+#btn_0x36 {
+    top: 258px;
+    left: -158px;
+}
+/* btn VARS*/
+#btn_0x26 {
+    top: 257px;
+    left: -160px;
+}
+/* btn CLEAR*/
+#btn_0x16 {
+    top: 248px;
+    left: -164px;
+}
+/* btn ALPHA*/
+#btn_0x57 {
+    top: 218px;
+    left: -388px;
+}
+/* btn X,T,theta,n*/
+#btn_0x47 {
+    top: 224px;
+    left: -390px;
+}
+/* btn STAT*/
+#btn_0x37 {
+    top: 226px;
+    left: -394px;
+}
+/* btn 2nd*/
+#btn_0x65 {
+    top: 186px;
+    left: -530px;
+}
+/* btn MODE*/
+#btn_0x66 {
+    top: 147px;
+    left: 80px;
+}
+/* btn DEL*/
+#btn_0x67 {
+    top: 150px;
+    left: 76px;
+}
+/* btn UP*/
+#btn_0x03 {
+    top: 134px;
+    left: 102px;
+}
+/* btn DOWN*/
+#btn_0x00 {
+    top: 171px;
+    left: 55px;
+}
+/* btn LEFT*/
+#btn_0x01 {
+    top: 153px;
+    left: -22px;
+}
+/* btn RIGHT*/
+#btn_0x02 {
+    top: 153px;
+    left: -10px;
+}
+/* btn Y=*/
+#btn_0x64 {
+    top: 88px;
+    left: -248px;
+}
+/* btn WINDOW*/
+#btn_0x63 {
+    top: 89px;
+    left: -252px;
+}
+/* btn ZOOM*/
+#btn_0x62 {
+    top: 89px;
+    left: -252px;
+}
+/* btn TRACE*/
+#btn_0x61 {
+    top: 89px;
+    left: -256px;
+}
+/* btn GRAPH*/
+#btn_0x60 {
+    top: 86px;
+    left: -258px;
+}
+#btn_9{
+    top:442px;
+    left: -207px;
+}
