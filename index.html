@@ -36,7 +36,7 @@ layout: base
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                    Emuator 
+                    Emulator 
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
@@ -78,6 +78,9 @@ layout: base
                             <a href="#" class="load-exmaple" data-source="/sources/hello-corelib.asm">Hello Corelib</a>
                         </li>
                         <li>
+                            <a href="#" class="load-exmaple" data-source="/sources/key-codes.asm">Keypad sample</a>
+                        </li>
+                        <li>
                             <a href="#" class="load-exmaple" data-source="/sources/fileman.asm">Fileman</a>
                         </li>
                     </ul>
@@ -114,7 +117,7 @@ layout: base
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href="#">Settings</a>
+                            <a href="#" data-toggle="modal" data-target="#settings_Modal">Settings</a>
                         </li>
                         <li>
                             <a href="#" data-toggle="modal" data-target="#shortcut_Modal">Shortcuts</a>
@@ -130,7 +133,7 @@ layout: base
     </div>
 </nav>
 <div class="row">
-    <div class="col col-md-7">
+    <div class="col col-md-5">
         <ul class="nav nav-tabs" role="tablist">
             <li class="active">
                 <a href="#_file_main_asm" role="tab" data-toggle="tab">main.asm</a>
@@ -149,11 +152,68 @@ layout: base
             </div>
         </div>
     </div>
-    <div class="col col-md-5">
+    <div class="col col-md-3">
         <div class="calculator">
-            <canvas width="385" height="256" id="screen"></canvas>
+            <canvas width="384" height="256" id="screen"></canvas>
+            <div id="keypad">
+                <a href="#"><img id="btn_0x41" class="btn_key" src="/static/keypad/btn_1.png"/></a>
+                <a href="#"><img id="btn_0x31" class="btn_key" src="/static/keypad/btn_2.png"/></a>
+                <a href="#"><img id="btn_0x21" class="btn_key" src="/static/keypad/btn_3.png"/></a>
+                <a href="#"><img id="btn_0x42" class="btn_key" src="/static/keypad/btn_4.png"/></a>
+                <a href="#"><img id="btn_0x32" class="btn_key" src="/static/keypad/btn_5.png"/></a>
+                <a href="#"><img id="btn_0x22" class="btn_key" src="/static/keypad/btn_6.png"/></a>
+                <a href="#"><img id="btn_0x43" class="btn_key" src="/static/keypad/btn_7.png"/></a>
+                <a href="#"><img id="btn_0x33" class="btn_key" src="/static/keypad/btn_8.png"/></a>
+                <a href="#"><img id="btn_0x23" class="btn_key" src="/static/keypad/btn_9.png"/></a>
+                <a href="#"><img id="btn_0x40" class="btn_key" src="/static/keypad/btn_0.png"/></a>
+                <a href="#"><img id="btn_0x30" class="btn_key" src="/static/keypad/btn_dot.png"/></a>
+                <a href="#"><img id="btn_0x20" class="btn_key" src="/static/keypad/btn_dash.png"/></a>
+                <a href="#"><img id="btn_0x10" class="btn_key" src="/static/keypad/btn_enter.png"/></a>
+                <a href="#"><img id="btn_0x11" class="btn_key" src="/static/keypad/btn_add.png"/></a>
+                <a href="#"><img id="btn_0x12" class="btn_key" src="/static/keypad/btn_min.png"/></a>
+                <a href="#"><img id="btn_0x13" class="btn_key" src="/static/keypad/btn_mul.png"/></a>
+                <a href="#"><img id="btn_0x14" class="btn_key" src="/static/keypad/btn_div.png"/></a>
+                <a href="#"><img id="btn_0x05" class="btn_key" src="/static/keypad/btn_on.png"/></a>
+                <a href="#"><img id="btn_0x51" class="btn_key" src="/static/keypad/btn_sto.png"/></a>
+                <a href="#"><img id="btn_0x52" class="btn_key" src="/static/keypad/btn_ln.png"/></a>
+                <a href="#"><img id="btn_0x53" class="btn_key" src="/static/keypad/btn_log.png"/></a>
+                <a href="#"><img id="btn_0x54" class="btn_key" src="/static/keypad/btn_square.png"/></a>
+                <a href="#"><img id="btn_0x44" class="btn_key" src="/static/keypad/btn_comma.png"/></a>
+                <a href="#"><img id="btn_0x34" class="btn_key" src="/static/keypad/btn_left_parenthesis.png"/></a>
+                <a href="#"><img id="btn_0x24" class="btn_key" src="/static/keypad/btn_right_parenthesis.png"/></a>
+                <a href="#"><img id="btn_0x55" class="btn_key" src="/static/keypad/btn_inverse.png"/></a>
+                <a href="#"><img id="btn_0x45" class="btn_key" src="/static/keypad/btn_sin.png"/></a>
+                <a href="#"><img id="btn_0x35" class="btn_key" src="/static/keypad/btn_cos.png"/></a>
+                <a href="#"><img id="btn_0x25" class="btn_key" src="/static/keypad/btn_tan.png"/></a>
+                <a href="#"><img id="btn_0x15" class="btn_key" src="/static/keypad/btn_pow.png"/></a>
+                <a href="#"><img id="btn_0x56" class="btn_key" src="/static/keypad/btn_math.png"/></a>
+                <a href="#"><img id="btn_0x46" class="btn_key" src="/static/keypad/btn_apps.png"/></a>
+                <a href="#"><img id="btn_0x36" class="btn_key" src="/static/keypad/btn_prgm.png"/></a>
+                <a href="#"><img id="btn_0x26" class="btn_key" src="/static/keypad/btn_vars.png"/></a>
+                <a href="#"><img id="btn_0x16" class="btn_key" src="/static/keypad/btn_clear.png"/></a>
+                <a href="#"><img id="btn_0x57" class="btn_key" src="/static/keypad/btn_alpha.png"/></a>
+                <a href="#"><img id="btn_0x47" class="btn_key" src="/static/keypad/btn_x.png"/></a>
+                <a href="#"><img id="btn_0x37" class="btn_key" src="/static/keypad/btn_stat.png"/></a>
+                <a href="#"><img id="btn_0x65" class="btn_key" src="/static/keypad/btn_2nd.png"/></a>
+                <a href="#"><img id="btn_0x66" class="btn_key" src="/static/keypad/btn_mode.png"/></a>
+                <a href="#"><img id="btn_0x67" class="btn_key" src="/static/keypad/btn_del.png"/></a>
+                <a href="#"><img id="btn_0x03" class="btn_key" src="/static/keypad/btn_arrow_up.png"/></a>
+                <a href="#"><img id="btn_0x00" class="btn_key" src="/static/keypad/btn_arrow_down.png"/></a>
+                <a href="#"><img id="btn_0x01" class="btn_key" src="/static/keypad/btn_arrow_left.png"/></a>
+                <a href="#"><img id="btn_0x02" class="btn_key" src="/static/keypad/btn_arrow_right.png"/></a>
+                <a href="#"><img id="btn_0x64" class="btn_key" src="/static/keypad/btn_y.png"/></a>
+                <a href="#"><img id="btn_0x63" class="btn_key" src="/static/keypad/btn_window.png"/></a>
+                <a href="#"><img id="btn_0x62" class="btn_key" src="/static/keypad/btn_zoom.png"/></a>
+                <a href="#"><img id="btn_0x61" class="btn_key" src="/static/keypad/btn_trace.png"/></a>
+                <a href="#"><img id="btn_0x60" class="btn_key" src="/static/keypad/btn_graph.png"/></a>
+            </div>
         </div>
+    </div>
+    <div class="col-md-4">
         <textarea disabled class="form-control" rows=8 placeholder="(toolchain output)" id="tool-log"></textarea>
+        <h5 style="padding-left: 100px">Goto <span class="glyphicon glyphicon-cog" ></span> settings to toggle the screen size</h5>
+        <canvas width="385" height="256" id="jumbo_screen">
+        </canvas>
     </div>
 </div>
 <!-- modal -->
@@ -180,6 +240,42 @@ layout: base
                     <button type="sumbit" class="btn btn-primary" data-dismiss="modal" id="new_file">New File</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<div class="modal" id="settings_Modal" tabindex="-1" role="dialog" aria-labelledby="settings_ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="settings_ModalLabel">Settings <span class="label label-danger">Work In Progress</span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="btn-group" data-toggle="buttons">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Emulator Settings</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div class="form-horizontal">
+                            <label class="control-label">Screen size : </label>
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-primary active">
+                                    <input class='settings' type="radio" name="opt_scr" id="opt_small_screen" autocomplete="off" checked > Default (small)
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input class='settings' type="radio" name="opt_scr" id="opt_jumbo_screen" autocomplete="off" > Jumbo screen
+                                </label>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -319,7 +415,8 @@ layout: base
         </div>
     </div>
 </div>
-
 <script data-main="/scripts/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.min.js"></script>
 <link rel="stylesheet" href="/css/base.css"/>
 <link rel="stylesheet" href="/css/index.css"/>
+<link rel="stylesheet" href="/css/keypad.css"/>
+
