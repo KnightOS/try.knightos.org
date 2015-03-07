@@ -167,7 +167,12 @@ run_project = ->
     log("Loading your program into the emulator!")
     if current_emulator != null
         current_emulator.cleanup()
-    current_emulator = new toolchain.ide_emu(document.getElementById('screen'))
+    
+    if document.getElementById('opt_small_screen').checked == true
+        current_emulator = new toolchain.ide_emu(document.getElementById('screen'))
+    else
+        current_emulator = new toolchain.ide_emu(document.getElementById('jumbo_screen'))
+
     window.emu = current_emulator
     current_emulator.load_rom(rom.buffer)
 
@@ -336,4 +341,16 @@ window.addEventListener('keydown',(e) ->
 window.addEventListener('keyup',(e) ->
     key = e.which
     delete down_key[key]
+)
+#adding settings option
+$('.settings').on('change',(e) ->
+    if(e.target.id == "opt_jumbo_screen")
+        $('#jumbo_screen').show()
+    else if(e.target.id == "opt_small_screen")
+        $('#jumbo_screen').hide()
+    run_project()
+)
+#prevent defaults of btn_key
+$('.btn_key').on('click',(e) ->
+    e.preventDefault()
 )
