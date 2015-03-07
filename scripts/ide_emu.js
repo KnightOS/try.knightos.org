@@ -93,7 +93,19 @@ define(['z80e', '../OpenTI/webui/js/OpenTI/OpenTI'], function(z80e, OpenTI) {
                 self.asic.hardware.Keyboard.release(key_mappings[e.keyCode]);
             }
         });
-
+    // Added code for virtual keyboard functionality
+        window.addEventListener('mousedown',function(e) {
+           if(e.target.hasAttribute('id') && e.target.id.indexOf('btn_') != -1){
+               self.asic.hardware.Keyboard.press(e.target.id.substring(4));
+           } 
+        });
+        
+        window.addEventListener('mouseup',function(e) {
+           if(e.target.hasAttribute('id') && e.target.id.indexOf('btn_') != -1){
+               self.asic.hardware.Keyboard.release(e.target.id.substring(4));
+           } 
+        });
+        
         var asic_tick, lcd_tick;
 
         this.exec = function exec(str) {
