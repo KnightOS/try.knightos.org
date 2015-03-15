@@ -179,28 +179,15 @@ check_resources = ->
     load_environment()
 
 downloadKernel = ->
-    log("Finding latest kernel on GitHub...")
+    log("Downloading latest kernel...")
     xhr = new XMLHttpRequest()
-    xhr.open('GET', 'https://api.github.com/repos/KnightOS/kernel/releases')
+    xhr.open('GET', 'http://builds.knightos.org/latest-TI84pSE.rom')
+    xhr.setRequestHeader("Accept", "application/octet-stream")
+    xhr.responseType = 'arraybuffer'
     xhr.onload = ->
-        json = JSON.parse(xhr.responseText)
-        release = json[0]
-        rom = new XMLHttpRequest()
-        if release?
-            log("Downloading kernel #{ release.tag_name }...")
-            rom.open('GET', _.find(release.assets, (a) -> a.name == 'kernel-TI84pSE.rom').url)
-        else
-            # fallback
-            log("Downloading kernel")
-            rom.open('GET', 'http://builds.knightos.org/latest-TI84pSE.rom')
-        rom.setRequestHeader("Accept", "application/octet-stream")
-        rom.responseType = 'arraybuffer'
-        rom.onload = () ->
-            window.toolchain.kernel_rom = rom.response
-            log("Loaded kernel ROM.")
-            check_resources()
-        rom.send()
-    xhr.onerror = ->
+        window.toolchain.kernel_rom = xhr.response
+        log("Loaded kernel ROM.")
+        check_resources()
     xhr.send()
 
 downloadKernel()
