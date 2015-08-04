@@ -15,7 +15,7 @@ If you do not have ruby installed on your system, you need to get it from [here]
 
 After installing the prerequisites, clone this repository and navigate to its root directory
 
-    git clone https://github.com/KnightOS/try.knightos.org.git
+    git clone --recursive https://github.com/KnightOS/try.knightos.org.git
     cd try.knightos.org
 
 
