@@ -286,6 +286,17 @@ $(window).on('resize', () ->
     resizeAce()
 )
 resizeAce()
+
+
+
+showSettingsMenu =() ->
+    for file in files
+        file.editor.execCommand("showSettingsMenu")
+
+$('#settings').click ->
+  showSettingsMenu()
+  return
+
 # ShortCuts
 commands =
   new_file: () ->
@@ -296,8 +307,8 @@ commands =
       $('.modal').modal('hide')
       $('#shortcut_Modal').modal('show')
   settings: () ->
-    for file in files
-        file.editor.execCommand("showSettingsMenu")
+      showSettingsMenu()
+
 down_key = []
 ctrlCut = []
 altCut = []
