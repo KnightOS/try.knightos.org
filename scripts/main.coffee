@@ -281,20 +281,32 @@ resizeAce = () ->
     $('.editor').css('height', (window.innerHeight - 92).toString() + 'px');
     for file in files
         file.editor.resize()
-        
+
 $(window).on('resize', () ->
     resizeAce()
 )
 resizeAce()
-# ShourtCuts
+
+showSettingsMenu = () ->
+    for file in files
+        file.editor.execCommand("showSettingsMenu")
+
+$('#settings').on('click',(e) ->
+  e.preventDefault()
+  showSettingsMenu()
+  return
+)
+# ShortCuts
 commands =
   new_file: () ->
       $('.modal').modal('hide')
       $('#new_file_Modal').modal('show')
       $('#new_file_title').focus()
-  shortcut: () -> 
+  shortcut: () ->
       $('.modal').modal('hide')
       $('#shortcut_Modal').modal('show')
+  settings: () ->
+      showSettingsMenu()
 
 down_key = []
 ctrlCut = []
@@ -303,9 +315,10 @@ altCut = []
 ctrlCut[78] = commands.new_file
 ctrlCut[82] = () -> run_project()
 ctrlCut[190] = commands.shortcut
+ctrlCut[188] = commands.settings
 
 window.addEventListener('keydown',(e) ->
-    key = e.which   
+    key = e.which
     if(down_key[key])
         return
         

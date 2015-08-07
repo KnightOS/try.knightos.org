@@ -30,7 +30,7 @@ layout: base
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#">Export files</a>
+                            <a href="#" id="export">Export files</a>
                         </li>
                     </ul>
                 </li>
@@ -114,7 +114,7 @@ layout: base
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href="#">Settings</a>
+                            <a href="#" data-toggle="modal" id="settings">Settings</a>
                         </li>
                         <li>
                             <a href="#" data-toggle="modal" data-target="#shortcut_Modal">Shortcuts</a>
@@ -242,6 +242,14 @@ layout: base
                                 </td>
                                 <td>
                                     Shortcuts
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <kbd>Ctrl + ,</kbd>
+                                </td>
+                                <td>
+                                    Settings
                                 </td>
                             </tr>
                         </tbody>
