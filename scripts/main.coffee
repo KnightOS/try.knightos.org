@@ -281,22 +281,21 @@ resizeAce = () ->
     $('.editor').css('height', (window.innerHeight - 92).toString() + 'px');
     for file in files
         file.editor.resize()
-        
+
 $(window).on('resize', () ->
     resizeAce()
 )
 resizeAce()
 
-
-
-showSettingsMenu =() ->
+showSettingsMenu = () ->
     for file in files
         file.editor.execCommand("showSettingsMenu")
 
-$('#settings').click ->
+$('#settings').on('click',(e) ->
+  e.preventDefault()
   showSettingsMenu()
   return
-
+)
 # ShortCuts
 commands =
   new_file: () ->
