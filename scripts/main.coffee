@@ -296,8 +296,8 @@ commands =
       $('.modal').modal('hide')
       $('#shortcut_Modal').modal('show')
   settings: () ->
-      $('.modal').modal('hide')
-      $('#settings_Modal').modal('show')
+    for file in files
+        file.editor.execCommand("showSettingsMenu")
 down_key = []
 ctrlCut = []
 altCut = []
