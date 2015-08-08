@@ -30,6 +30,55 @@ window.toolchain = {
     kernel_rom: null,
 }
 
+tree_data = undefined
+
+json2html = (json) ->
+  i = undefined
+  ret = document.createElement('ul')
+  li = undefined
+  for i of json
+    `i = i`
+    li = ret.appendChild(document.createElement('li'))
+    li.appendChild document.createTextNode(i + ': ')
+    if typeof json[i] == 'object'
+      li.appendChild json2html(json[i])
+    else
+      li.firstChild.nodeValue += json[i]
+  ret
+
+$.ajax
+  type: 'GET'
+  url: 'http://www.knightos.org/documentation/reference/data.json'
+  async: true
+  beforeSend: (x) ->
+    if x and x.overrideMimeType
+      x.overrideMimeType 'application/j-son;charset=UTF-8'
+    return
+  dataType: 'json'
+  success: (data, textStatus, jqXHR) ->
+    tree_data_temp = jqXHR.responseText
+    tree_data_temp = tree_data_temp.replace(/([^"]):/g, '$1 ').replace(/([^"]):/g, '$1 ')
+    tree_data = JSON.parse(tree_data_temp)
+    $('.doc-body').append json2html(tree_data)
+    $ ->
+      $('.doc-body').jstree 'plugins': [
+        'search'
+        'sort'
+      ]
+      to = false
+      $('.doc_search').keyup ->
+        if to
+          clearTimeout to
+        to = setTimeout((->
+          v = $('.doc_search').val()
+          $('.doc-body').jstree(true).search v
+          return
+        ), 250)
+        return
+      return
+    return
+
+
 files = []
 
 log_el = document.getElementById('tool-log')
@@ -307,6 +356,9 @@ commands =
       $('#shortcut_Modal').modal('show')
   settings: () ->
       showSettingsMenu()
+  docs: () ->
+      $('.modal').modal('hide')
+      $('#docs_Modal').modal('show')
 
 down_key = []
 ctrlCut = []
@@ -316,6 +368,7 @@ ctrlCut[78] = commands.new_file
 ctrlCut[82] = () -> run_project()
 ctrlCut[190] = commands.shortcut
 ctrlCut[188] = commands.settings
+ctrlCut[191] = commands.docs
 
 window.addEventListener('keydown',(e) ->
     key = e.which

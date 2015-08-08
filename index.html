@@ -119,6 +119,9 @@ layout: base
                         <li>
                             <a href="#" data-toggle="modal" data-target="#shortcut_Modal">Shortcuts</a>
                         </li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#docs_Modal">Docs</a>
+                        </li>
                         <li class="divider"></li>
                         <li>
                             <a href="http://www.knightos.org">About KnightOS</a>
@@ -259,6 +262,23 @@ layout: base
         </div>
     </div>
 </div>
+<div class="modal" id="docs_Modal" tabindex="-1" role="dialog" aria-labelledby="docs_ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 90%; height: 60%">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="docs_ModalLabel">Docs <span class="label label-danger">Work In Progress</span> <input type="text" class="doc_search" value="" class="input" ></h4>
+                </div>
+                <div class="doc-body modal-body">
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="modal" id="dependencies_Modal" tabindex="-1" role="dialog" aria-labelledby="dependencies_ModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -327,7 +347,9 @@ layout: base
         </div>
     </div>
 </div>
-
 <script data-main="/scripts/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.min.js"></script>
+
+
 <link rel="stylesheet" href="/css/base.css"/>
 <link rel="stylesheet" href="/css/index.css"/>
+<link rel="stylesheet" href="/jstree/jstree.min.css" />
