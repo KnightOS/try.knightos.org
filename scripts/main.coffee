@@ -151,6 +151,11 @@ load_environment = ->
     install_package('core', 'kernel-headers', callback)
     install_package('core', 'corelib', callback)
 
+    for file in files
+        saved = localStorage.getItem file.name
+        if(saved != null)
+            file.editor.setValue(saved)
+
 run_project = ->
     # Clear all Ace Annotations
     $('#run-project').removeAttr('disabled')
@@ -161,6 +166,7 @@ run_project = ->
     # Assemble
     for file in files
         window.toolchain.scas.FS.writeFile('/' + file.name, file.editor.getValue())
+        localStorage.setItem file.name, file.editor.getValue()
 
     log("Calling assembler...")
 
@@ -339,6 +345,7 @@ showSettingsMenu = () ->
     for file in files
         file.editor.execCommand("showSettingsMenu")
 
+
 $('#settings').on('click',(e) ->
   e.preventDefault()
   showSettingsMenu()
@@ -414,3 +421,41 @@ window.addEventListener('keyup',(e) ->
     key = e.which
     delete down_key[key]
 )
+
+#thanks stackoverflow; for autosaving
+(($) ->
+  $.fn.extend donetyping: (callback, timeout) ->
+    timeout = timeout or 1e3
+    timeoutReference = undefined
+
+    doneTyping = (el) ->
+      if !timeoutReference
+        return
+      timeoutReference = null
+      callback.call el
+      return
+
+    @each (i, el) ->
+      $el = $(el)
+      $el.is(':input') and $el.on('keyup keypress', (e) ->
+        if e.type == 'keyup' and e.keyCode != 8
+          return
+        if timeoutReference
+          clearTimeout timeoutReference
+        timeoutReference = setTimeout((->
+          doneTyping el
+          return
+        ), timeout)
+        return
+      ).on('blur', ->
+        doneTyping el
+        return
+      )
+      return
+  return
+) jQuery
+
+$('.ace_text-input').donetyping ->
+  for file in files
+    localStorage.setItem file.name, file.editor.getValue()
+    return
