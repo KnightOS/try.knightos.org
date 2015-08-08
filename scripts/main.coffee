@@ -57,7 +57,6 @@ $.ajax
   dataType: 'json'
   success: (data, textStatus, jqXHR) ->
     tree_data_temp = jqXHR.responseText
-    tree_data_temp = tree_data_temp.replace(/([^"]):/g, '$1 ').replace(/([^"]):/g, '$1 ')
     tree_data = JSON.parse(tree_data_temp)
     $('.doc-body').append json2html(tree_data)
     $ ->
