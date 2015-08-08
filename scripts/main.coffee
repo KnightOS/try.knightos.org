@@ -344,6 +344,15 @@ $('#settings').on('click',(e) ->
   showSettingsMenu()
   return
 )
+
+getSelectedText = ->
+  text = ''
+  if window.getSelection
+    text = window.getSelection().toString()
+  else if document.selection and document.selection.type != 'Control'
+    text = document.selection.createRange().text
+  text
+
 # ShortCuts
 commands =
   new_file: () ->
@@ -358,6 +367,19 @@ commands =
   docs: () ->
       $('.modal').modal('hide')
       $('#docs_Modal').modal('show')
+  search: () ->
+      $('.modal').modal('hide')
+      $('#docs_Modal').modal('show')
+      for file in files
+          if(file.editor.getSelectedText())
+             $('input.doc_search').val(file.editor.getSelectedText())
+             break
+          else
+             break
+      $('input.doc_search').focus()
+      e = jQuery.Event( 'keydown', { which: 13 } )
+      $('input.doc_search').trigger(e)
+
 
 down_key = []
 ctrlCut = []
@@ -365,8 +387,9 @@ altCut = []
 
 ctrlCut[78] = commands.new_file
 ctrlCut[82] = () -> run_project()
-ctrlCut[190] = commands.shortcut
+ctrlCut[186] = commands.search
 ctrlCut[188] = commands.settings
+ctrlCut[190] = commands.shortcut
 ctrlCut[191] = commands.docs
 
 window.addEventListener('keydown',(e) ->
