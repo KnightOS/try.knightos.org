@@ -154,7 +154,7 @@ load_environment = ->
     for file in files
         saved = localStorage.getItem file.name
         if(saved != null)
-            file.editor.setValue(saved)
+            file.editor.setValue(saved, 1)
 
 run_project = ->
     # Clear all Ace Annotations
