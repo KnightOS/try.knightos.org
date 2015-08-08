@@ -101,10 +101,10 @@ a {color:#39B3D7}
 .doc-nav > li > ul {padding-left:20px}
 
 .doc_search {
-  float: right;
-  margin: 0em auto 1em auto;
   border-radius:4px;
   border:1px solid silver;
+  margin-left: 30%;
+  position: relative;
 }
 
 .jstree li > a > .jstree-icon {  display:none !important; } 

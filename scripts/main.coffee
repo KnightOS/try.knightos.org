@@ -373,16 +373,18 @@ window.addEventListener('keydown',(e) ->
     key = e.which
     if(down_key[key])
         return
-        
+
     if(e.ctrlKey && ctrlCut[key]?)
         e.preventDefault();
         ctrlCut[key]()
     else if(e.altKey && altCut[key]?)
         e.preventDefault();
         altCut[key]()
-    
-    
-         
+    else if(key == 13 && $('.doc_search').is ':focus')
+        e.stopPropagation();
+        e.preventDefault();
+
+
     down_key[key] = true
 )
 window.addEventListener('keyup',(e) ->
