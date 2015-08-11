@@ -399,7 +399,7 @@ ctrlCut[188] = commands.settings
 ctrlCut[190] = commands.shortcut
 ctrlCut[191] = commands.docs
 
-window.addEventListener('keydown',(e) ->
+window.on('keydown',(e) ->
     key = e.which
     if(down_key[key])
         return
@@ -417,7 +417,7 @@ window.addEventListener('keydown',(e) ->
 
     down_key[key] = true
 )
-window.addEventListener('keyup',(e) ->
+window.on('keyup',(e) ->
     key = e.which
     delete down_key[key]
 )
