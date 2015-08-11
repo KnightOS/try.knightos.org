@@ -47,7 +47,7 @@ json2html = (json) ->
   ret
 
 request = new XMLHttpRequest
-request.open 'GET', 'https://www.knightos.org/documentation/reference/data.json', true
+request.open 'GET', 'http://www.knightos.org/documentation/reference/data.json', true
 
 request.onload = ->
   if request.status >= 200 and request.status < 400
@@ -73,7 +73,7 @@ request.onload = ->
   return
 
 request.onerror = ->
-  console.log 'could not fetch data'
+  console.log 'Could not fetch data'
   return
 
 request.send()
@@ -282,11 +282,16 @@ require(['ide_emu'], (ide_emu) ->
 )
 
 # Bind stuff to the UI, TODO: Rewrite this entire thing because .data() uses Jquerys memory structure that bypasses the DOM.
-$("[data-package]").on('click', (e) ->
+data_package_elms = document.querySelectorAll('[data-package]')
+i = 0
+while i < data_package_elms.length
+  data_package_elms[i].addEventListener 'click', (e) ->
+    pack = undefined
     e.preventDefault()
     pack = $(this).data('package').split('/')
-    install_package(pack[0], pack[1])
-)
+    install_package pack[0], pack[1]
+  i++
+
 
 load_example_elms = document.querySelectorAll('.load-example')
 i = 0
@@ -327,36 +332,37 @@ new_file_elm.addEventListener('click',(e) ->
     nav_tabs_elm = document.querySelector('.nav.nav-tabs')
     nav_tabs_elm.appendChild("<li><a data-toggle='tab' href='#" + id + "'>" + id + ".asm</a></li>")
 
-    el = document.querySelector("##{ id }>div")
-    editor = ace.edit(el)
+    editor_elm = document.querySelector("##{ id }>div")
+    editor = ace.edit(editor_elm)
     editor.setTheme("ace/theme/github")
-    if el.dataset.file.indexOf('.asm') == el.dataset.file.length - 4
+    if editor_elm.dataset.file.indexOf('.asm') == editor_elm.dataset.file.length - 4
         editor.getSession().setMode("ace/mode/assembly_x86")
     files.push({
-        name: el.dataset.file,
+        name: editor_elm.dataset.file,
         editor: editor
     })
     resizeAce()
 )
 
-((el) ->
+((editor_elm) ->
     # Set up default editors
-    editor = ace.edit(el)
+    editor = ace.edit(editor_elm)
     editor.setTheme("ace/theme/github")
-    if el.dataset.file.indexOf('.asm') == el.dataset.file.length - 4
+    if editor_elm.dataset.file.indexOf('.asm') == editor_elm.dataset.file.length - 4
         editor.getSession().setMode("ace/mode/assembly_x86")
     files.push({
-        name: el.dataset.file,
+        name: editor_elm.dataset.file,
         editor: editor
     })
-)(el) for el in document.querySelectorAll('.editor')
+)(editor_elm) for editor_elm in document.querySelectorAll('.editor')
 
 resizeAce = () ->
-    $('.editor').css('height', (window.innerHeight - 92).toString() + 'px');
+    editor_elm = document.querySelector('.editor')
+    editor_elm.style.height = (window.innerHeight - 92).toString() + 'px'
     for file in files
         file.editor.resize()
 
-$(window).on('resize', () ->
+window.addEventListener('resize', () ->
     resizeAce()
 )
 resizeAce()
@@ -380,7 +386,7 @@ getSelectedText = ->
     text = document.selection.createRange().text
   text
 
-# ShortCuts
+# ShortCuts TODO: figure out how to remove jquery but keep bootstrap?
 commands =
   new_file: () ->
       $('.modal').modal('hide')
@@ -421,6 +427,7 @@ ctrlCut[191] = commands.docs
 
 window.addEventListener('keydown',(e) ->
     key = e.which
+    doc_search_elm = document.querySelector('.doc_search')
     if(down_key[key])
         return
 
@@ -430,7 +437,7 @@ window.addEventListener('keydown',(e) ->
     else if(e.altKey && altCut[key]?)
         e.preventDefault();
         altCut[key]()
-    else if(key == 13 && $('.doc_search').is ':focus')
+    else if(key == 13 && doc_search_elm == document.activeElement)
         e.stopPropagation();
         e.preventDefault();
 
@@ -442,40 +449,23 @@ window.addEventListener('keyup',(e) ->
     delete down_key[key]
 )
 
-#thanks stackoverflow; for autosaving
-(($) ->
-  $.fn.extend donetyping: (callback, timeout) ->
-    timeout = timeout or 1e3
-    timeoutReference = undefined
+typingTimer = undefined
+doneTypingInterval = 2000
+input = document.querySelector('.ace_text-input')
 
-    doneTyping = (el) ->
-      if !timeoutReference
-        return
-      timeoutReference = null
-      callback.call el
-      return
+doneTyping = ->
 
-    @each (i, el) ->
-      $el = $(el)
-      $el.is(':input') and $el.on('keyup keypress', (e) ->
-        if e.type == 'keyup' and e.keyCode != 8
-          return
-        if timeoutReference
-          clearTimeout timeoutReference
-        timeoutReference = setTimeout((->
-          doneTyping el
-          return
-        ), timeout)
-        return
-      ).on('blur', ->
-        doneTyping el
-        return
-      )
-      return
+input.addEventListener 'keyup', ->
+  clearTimeout typingTimer
+  typingTimer = setTimeout(doneTyping, doneTypingInterval)
   return
-) jQuery
+input.addEventListener 'keydown', ->
+  clearTimeout typingTimer
+  return
 
-$('.ace_text-input').donetyping ->
+doneTyping = ->
   for file in files
     localStorage.setItem file.name, file.editor.getValue()
+    console.log 'Saving'
     return
+
