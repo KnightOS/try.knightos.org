@@ -46,37 +46,37 @@ json2html = (json) ->
       li.firstChild.nodeValue += json[i]
   ret
 
-$.ajax
-  type: 'GET'
-  url: 'http://www.knightos.org/documentation/reference/data.json'
-  async: true
-  beforeSend: (x) ->
-    if x and x.overrideMimeType
-      x.overrideMimeType 'application/j-son;charset=UTF-8'
-    return
-  dataType: 'json'
-  success: (data, textStatus, jqXHR) ->
-    tree_data_temp = jqXHR.responseText
-    tree_data = JSON.parse(tree_data_temp)
-    $('.doc-body').append json2html(tree_data)
-    $ ->
-      $('.doc-body').jstree 'plugins': [
-        'search'
-        'sort'
-      ]
-      to = false
-      $('.doc_search').keyup ->
-        if to
-          clearTimeout to
-        to = setTimeout((->
-          v = $('.doc_search').val()
-          $('.doc-body').jstree(true).search v
-          return
-        ), 250)
-        return
-      return
-    return
+request = new XMLHttpRequest
+request.open 'GET', 'http://www.knightos.org/documentation/reference/data.json', true
 
+request.onload = ->
+  if request.status >= 200 and request.status < 400
+    tree_data_temp = request.responseText
+    tree_data = JSON.parse(tree_data_temp)
+    doc_body = document.getElementsByClassName('doc-body')[0]
+    doc_search = document.getElementsByClassName('doc_search')[0]
+    doc_body.appendChild json2html(tree_data)
+    to = undefined
+    $('.doc-body').jstree 'plugins': [
+      'search'
+      'sort'
+    ]
+    window.addEventListener 'keydown', ->
+      if to
+        clearTimeout to
+      to = setTimeout((->
+        v = doc_search.value
+        $('.doc-body').jstree(true).search v
+        return
+      ), 250)
+      return
+  return
+
+request.onerror = ->
+  console.log 'could not fetch data'
+  return
+
+request.send()
 
 files = []
 
@@ -399,7 +399,7 @@ ctrlCut[188] = commands.settings
 ctrlCut[190] = commands.shortcut
 ctrlCut[191] = commands.docs
 
-window.on('keydown',(e) ->
+window.addEventListener('keydown',(e) ->
     key = e.which
     if(down_key[key])
         return
@@ -417,7 +417,7 @@ window.on('keydown',(e) ->
 
     down_key[key] = true
 )
-window.on('keyup',(e) ->
+window.addEventListener('keyup',(e) ->
     key = e.which
     delete down_key[key]
 )
