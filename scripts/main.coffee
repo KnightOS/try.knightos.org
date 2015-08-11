@@ -47,7 +47,7 @@ json2html = (json) ->
   ret
 
 request = new XMLHttpRequest
-request.open 'GET', 'http://www.knightos.org/documentation/reference/data.json', true
+request.open 'GET', 'https://www.knightos.org/documentation/reference/data.json', true
 
 request.onload = ->
   if request.status >= 200 and request.status < 400
@@ -115,7 +115,10 @@ copy_between_systems = (fs1, fs2, from, to, encoding) ->
 
 install_package = (repo, name, callback) ->
     full_name = repo + '/' + name
-    $("[data-package='#{full_name}']").attr('disabled','disabled').text('Installing')
+    # elm = document.querySelector('[data-package=\'' + full_name + '\']')
+    # elm.setAttribute 'disabled', 'disabled'
+    # elm.textContent = 'Installing'
+    $('[data-package=\'' + full_name + '\']').attr('disabled', 'disabled').text 'Installing'
     log("Downloading " + full_name)
     xhr = new XMLHttpRequest()
     xhr.open('GET', "https://packages.knightos.org/" + full_name + "/download")
@@ -158,10 +161,12 @@ load_environment = ->
 
 run_project = ->
     # Clear all Ace Annotations
-    $('#run-project').removeAttr('disabled')
+    run_project_el = document.getElementById('run_project')
+    run_project_el.removeAttribute('disabled')
     _.each(files, (el) ->
        el.editor.getSession().clearAnnotations()
     );
+
 
     # Assemble
     for file in files
@@ -276,36 +281,51 @@ require(['ide_emu'], (ide_emu) ->
     check_resources()
 )
 
-# Bind stuff to the UI
+# Bind stuff to the UI, TODO: Rewrite this entire thing because .data() uses Jquerys memory structure that bypasses the DOM.
 $("[data-package]").on('click', (e) ->
     e.preventDefault()
     pack = $(this).data('package').split('/')
     install_package(pack[0], pack[1])
 )
 
-$('.load-exmaple').on('click', (e) ->
+load_example_elms = document.querySelectorAll('.load-example')
+i = 0
+while i < load_example_elms.length
+  load_example_elms[i].addEventListener 'click', (e) ->
+    xhr = undefined
     e.preventDefault()
-    xhr = new XMLHttpRequest();
-    xhr.open('GET', $(this).data('source'));
-    xhr.onload = () ->
-        files[0].editor.setValue(this.responseText)
-        files[0].editor.navigateFileStart();
-    xhr.send();
-)
+    xhr = new XMLHttpRequest
+    xhr.open 'GET', $(this).data('source')
+
+    xhr.onload = ->
+      files[0].editor.setValue @responseText
+      files[0].editor.navigateFileStart()
+
+    xhr.send()
+  i++
 
 
-$('#run-project').on('click', (e) ->
+run_project_elm = document.querySelector('#run_project')
+run_project_elm.addEventListener('click', (e) ->
     run_project()
 )
-$('#new_file').on('click',(e) ->
+
+new_file_elm = document.querySelector('#new_file')
+new_file_elm.addEventListener('click',(e) ->
     e.preventDefault()
-    id = $('#new_file_title').val();
-    $('#new_file_title').val('');
+    new_file_title_elm = document.querySelector('#new_file_title')
+
+    id = new_file_title_elm.value
+    new_file_title_elm.value = ''
     if not id || _.some(files, {name: id + ".asm"})
         return
 
-    $('.tab-content').append("<div class='tab-pane' id='#{ id }'><div class='editor' data-file='#{ id }.asm'></div></div>")
-    $('.nav.nav-tabs').append("<li><a data-toggle='tab' href='##{ id }'>#{ id }.asm</a></li>")
+
+    tab_content_elm = document.querySelector('.tab-content')
+    tab_content_elm.appendChild("<div class='tab-pane' id='" + id + "'><div class='editor' data-file='" + id + ".asm'></div></div>")
+
+    nav_tabs_elm = document.querySelector('.nav.nav-tabs')
+    nav_tabs_elm.appendChild("<li><a data-toggle='tab' href='#" + id + "'>" + id + ".asm</a></li>")
 
     el = document.querySelector("##{ id }>div")
     editor = ace.edit(el)
@@ -346,11 +366,11 @@ showSettingsMenu = () ->
         file.editor.execCommand("showSettingsMenu")
 
 
-$('#settings').on('click',(e) ->
+el = document.getElementById('settings')
+el.addEventListener 'click', (e) ->
   e.preventDefault()
   showSettingsMenu()
   return
-)
 
 getSelectedText = ->
   text = ''
