@@ -115,10 +115,10 @@ copy_between_systems = (fs1, fs2, from, to, encoding) ->
 
 install_package = (repo, name, callback) ->
     full_name = repo + '/' + name
-    # elm = document.querySelector('[data-package=\'' + full_name + '\']')
-    # elm.setAttribute 'disabled', 'disabled'
-    # elm.textContent = 'Installing'
-    $('[data-package=\'' + full_name + '\']').attr('disabled', 'disabled').text 'Installing'
+    elm = document.querySelector("[data-package='" + full_name + "']")
+    if(elm)
+        elm.setAttribute 'disabled', 'disabled'
+        elm.textContent = 'Installing'
     log("Downloading " + full_name)
     xhr = new XMLHttpRequest()
     xhr.open('GET', "https://packages.knightos.org/" + full_name + "/download")
@@ -131,7 +131,8 @@ install_package = (repo, name, callback) ->
         toolchain.kpack.Module.callMain(['-e', file_name, '/pkgroot'])
         copy_between_systems(toolchain.kpack.FS, toolchain.scas.FS, "/pkgroot/include", "/include", "utf8")
         copy_between_systems(toolchain.kpack.FS, toolchain.genkfs.FS, "/pkgroot", "/root", "binary")
-        $("[data-package='#{full_name}']").text('Installed')
+        if(elm)
+            elm.textContent = 'Installed'
         callback() if callback?
     xhr.send()
 
@@ -283,31 +284,24 @@ require(['ide_emu'], (ide_emu) ->
 
 # Bind stuff to the UI, TODO: Rewrite this entire thing because .data() uses Jquerys memory structure that bypasses the DOM.
 data_package_elms = document.querySelectorAll('[data-package]')
-i = 0
-while i < data_package_elms.length
-  data_package_elms[i].addEventListener 'click', (e) ->
-    pack = undefined
-    e.preventDefault()
-    pack = $(this).data('package').split('/')
-    install_package pack[0], pack[1]
-  i++
-
+Array.prototype.forEach.call data_package_elms, (e, i) ->
+    data_package_elms[i].addEventListener 'click', (ev) ->
+        ev.preventDefault()
+        pack = data_package_elms[i].dataset['package'].split('/')
+        install_package pack[0], pack[1]
 
 load_example_elms = document.querySelectorAll('.load-example')
-i = 0
-while i < load_example_elms.length
-  load_example_elms[i].addEventListener 'click', (e) ->
-    xhr = undefined
-    e.preventDefault()
+Array.prototype.forEach.call load_example_elms, (e, i) ->
+  load_example_elms[i].addEventListener 'click', (ev) ->
+    ev.preventDefault()
     xhr = new XMLHttpRequest
-    xhr.open 'GET', $(this).data('source')
+    xhr.open 'GET', load_example_elms[i].dataset.source
 
     xhr.onload = ->
       files[0].editor.setValue @responseText
       files[0].editor.navigateFileStart()
 
     xhr.send()
-  i++
 
 
 run_project_elm = document.querySelector('#run_project')
@@ -327,12 +321,13 @@ new_file_elm.addEventListener('click',(e) ->
 
 
     tab_content_elm = document.querySelector('.tab-content')
-    tab_content_elm.appendChild("<div class='tab-pane' id='" + id + "'><div class='editor' data-file='" + id + ".asm'></div></div>")
+    tab_content_elm.innerHTML += ("<div class='tab-pane' id='" + id + "'><div class='editor' data-file='" + id + ".asm'></div></div>")
 
     nav_tabs_elm = document.querySelector('.nav.nav-tabs')
-    nav_tabs_elm.appendChild("<li><a data-toggle='tab' href='#" + id + "'>" + id + ".asm</a></li>")
+    nav_tabs_elm.innerHTML += ("<li><a data-toggle='tab' href='#" + id + "'>" + id + ".asm</a></li>")
 
     editor_elm = document.querySelector("##{ id }>div")
+    console.log editor_elm
     editor = ace.edit(editor_elm)
     editor.setTheme("ace/theme/github")
     if editor_elm.dataset.file.indexOf('.asm') == editor_elm.dataset.file.length - 4
@@ -468,4 +463,3 @@ doneTyping = ->
     localStorage.setItem file.name, file.editor.getValue()
     console.log 'Saving'
     return
-
