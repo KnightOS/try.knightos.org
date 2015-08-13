@@ -30,54 +30,6 @@ window.toolchain = {
     kernel_rom: null,
 }
 
-tree_data = undefined
-
-json2html = (json) ->
-  i = undefined
-  ret = document.createElement('ul')
-  li = undefined
-  for i of json
-    `i = i`
-    li = ret.appendChild(document.createElement('li'))
-    li.appendChild document.createTextNode(i + ': ')
-    if typeof json[i] == 'object'
-      li.appendChild json2html(json[i])
-    else
-      li.firstChild.nodeValue += json[i]
-  ret
-
-request = new XMLHttpRequest
-request.open 'GET', 'http://www.knightos.org/documentation/reference/data.json', true
-
-request.onload = ->
-  if request.status >= 200 and request.status < 400
-    tree_data_temp = request.responseText
-    tree_data = JSON.parse(tree_data_temp)
-    doc_body = document.getElementsByClassName('doc-body')[0]
-    doc_search = document.getElementsByClassName('doc_search')[0]
-    doc_body.appendChild json2html(tree_data)
-    to = undefined
-    $('.doc-body').jstree 'plugins': [
-      'search'
-      'sort'
-    ]
-    window.addEventListener 'keydown', ->
-      if to
-        clearTimeout to
-      to = setTimeout((->
-        v = doc_search.value
-        $('.doc-body').jstree(true).search v
-        return
-      ), 250)
-      return
-  return
-
-request.onerror = ->
-  console.log 'Could not fetch data'
-  return
-
-request.send()
-
 files = []
 
 log_el = document.getElementById('tool-log')
