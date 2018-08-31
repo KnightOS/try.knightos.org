@@ -1,6 +1,3 @@
----
----
-
 require.config({
     paths: {
         'z80e': '../tools/z80e'
@@ -193,7 +190,7 @@ check_resources = ->
 downloadKernel = ->
     log("Downloading latest kernel...")
     xhr = new XMLHttpRequest()
-    xhr.open('GET', 'http://builds.knightos.org/latest-TI84pSE.rom')
+    xhr.open('GET', 'https://mirror.drewdevault.com/latest-TI84pSE.rom')
     xhr.setRequestHeader("Accept", "application/octet-stream")
     xhr.responseType = 'arraybuffer'
     xhr.onload = ->
